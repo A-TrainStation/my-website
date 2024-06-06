@@ -148,8 +148,9 @@ const _navbardef = [
             text-align: center;
         }
         h2{
-            text-align center;
-            
+            text-align: center;
+            margin-right: 30px;
+            margin-left: 30px;
         }`
 
         
