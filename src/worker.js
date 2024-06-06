@@ -146,6 +146,10 @@ const _navbardef = [
         }
         footer{
             text-align: center;
+        }
+        h2{
+            text-align center;
+            
         }`
 
         
