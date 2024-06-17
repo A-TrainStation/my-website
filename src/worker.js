@@ -1,4 +1,4 @@
-// New comment
+// Bootstrap change
 const _navbardef = [
     { title: "index", href: "/", type: "Home" },
     { title: "biography", href: "/bio", type: "about" },
