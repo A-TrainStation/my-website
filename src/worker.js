@@ -390,7 +390,7 @@ var src_default = {
                <p>In my family I have 3 sisters and 1 brother and I am the second oldest.
                  We all lived in Iowa. Everyone enjoyed spending the holidays at Grandma and Grandpas house.
                  The best part is our family reunions because we don't get to see our family all the time.
-                 In my family, we play Wheel of Fortune to see who does which chore during the week,
+                 In my family, we play Wheel of Fortune game to see who does which chore during the week,
                  we enjoy playing board games, Friday Movie Nights, and playing outside. My Father,
                  brother and I have been working on outdoor projects and enjoy riding bikes.
                </p>
