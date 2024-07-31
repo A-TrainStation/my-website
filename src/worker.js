@@ -1,89 +1,90 @@
+import { Hono } from 'hono';
+import { html } from 'hono/html';
+
 // Bootstrap change
 const _navbardef = [
-    { title: "index", href: "/", type: "Home" },
-    { title: "biography", href: "/bio", type: "about" },
-    { title: "Career-goals", href: "/goals", type: "career-goals" },
-    { title: "Activities-organization", href: "/engagement", type: "activities-organization" },
-    { title: "Images", href: "/gallary", type: "images" },
+	{ title: 'index', href: '/', type: 'Home' },
+	{ title: 'biography', href: '/bio', type: 'about' },
+	{ title: 'Career-goals', href: '/goals', type: 'career-goals' },
+	{ title: 'Activities-organization', href: '/engagement', type: 'activities-organization' },
+	{ title: 'Images', href: '/gallary', type: 'images' },
 ];
+const app = new Hono();
 
 const currentAge = (birthdate) => {
-    const current = new Date();
-    const birth = new Date(birthdate);
-    const age = (current - birth) / (1000 * 60 * 60 * 24 * 365);
-    return Math.floor(age);
+	const current = new Date();
+	const birth = new Date(birthdate);
+	const age = (current - birth) / (1000 * 60 * 60 * 24 * 365);
+	return Math.floor(age);
 };
 
-console.log(currentAge("1997-11-19"));
+console.log(currentAge('1997-11-19'));
 
 function isObject(item) {
-    return item && typeof item === 'object' && !Array.isArray(item);
+	return item && typeof item === 'object' && !Array.isArray(item);
 }
 
 function mergeDeep(target, ...sources) {
-    if (!sources.length) return target;
-    const source = sources.shift();
+	if (!sources.length) return target;
+	const source = sources.shift();
 
-    if (isObject(target) && isObject(source)) {
-        for (const key in source) {
-            if (isObject(source[key])) {
-                if (!target[key]) Object.assign(target, { [key]: {} });
-                mergeDeep(target[key], source[key]);
-            } else {
-                Object.assign(target, { [key]: source[key] });
-            }
-        }
-    }
+	if (isObject(target) && isObject(source)) {
+		for (const key in source) {
+			if (isObject(source[key])) {
+				if (!target[key]) Object.assign(target, { [key]: {} });
+				mergeDeep(target[key], source[key]);
+			} else {
+				Object.assign(target, { [key]: source[key] });
+			}
+		}
+	}
 
-    return mergeDeep(target, ...sources);
+	return mergeDeep(target, ...sources);
 }
 
 class Page {
-    static getStyleObject(style) {
-        const styleTypes = {
-            'home': {
-                header: { background_color: "000" },
-                body: { background_color: "e0ebeb", text_color: "ccf5ff" },
-            },
-            'greenlantern': {
-                header: { background_color: "ccffdd" },
-                body: { background_color: "e0ebeb", text_color: "ccf5ff" },
-            },
-            'purplecrayon': {
-                header: { background_color: "ccffdd" },
-                body: { background_color: "f7e6ff", text_color: "ccf5ff" },
-            },
-            'blueberry': {
-                header: { background_color: "ccffdd" },
-                body: { background_color: "b3f0ff", text_color: "ccf5ff" },
-            },
-            'yellowflower': {
-                header: { background_color: "ccffdd" },
-                body: { background_color: "e0ebeb", text_color: "ccf5ff" },
-            },
-            'default': {
-                header: { background_color: "000", text_align: "center" },
-                body: { background_color: "e0ebeb", text_color: "fff" },
-            },
-        };
-        return styleTypes[style] || styleTypes['default'];
-    }
+	static getStyleObject(style) {
+		const styleTypes = {
+			home: {
+				header: { background_color: '000' },
+				body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
+			},
+			greenlantern: {
+				header: { background_color: 'ccffdd' },
+				body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
+			},
+			purplecrayon: {
+				header: { background_color: 'ccffdd' },
+				body: { background_color: 'f7e6ff', text_color: 'ccf5ff' },
+			},
+			blueberry: {
+				header: { background_color: 'ccffdd' },
+				body: { background_color: 'b3f0ff', text_color: 'ccf5ff' },
+			},
+			yellowflower: {
+				header: { background_color: 'ccffdd' },
+				body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
+			},
+			default: {
+				header: { background_color: '000', text_align: 'center' },
+				body: { background_color: 'e0ebeb', text_color: 'fff' },
+			},
+		};
+		return styleTypes[style] || styleTypes['default'];
+	}
 
-    static defaults = {}
-    static defaultKeysAllowed = ['header', 'footer', 'banner', 'body', 'navbar']
-    static setDefs = (setDefaults) => {
-        for(const [key, value] of Object.entries(setDefaults))
-            if(Page.defaultKeysAllowed.includes(key))
-                Page.defaults[key] = value
-    }
-    static buildNavbar(navObj) {
-        let output = "";
-        for (const each of navObj) {
-            output += `<a class="nav-link" href="${each.href}">${each.title}</a>`;
-        }
+	static defaults = {};
+	static defaultKeysAllowed = ['header', 'footer', 'banner', 'body', 'navbar'];
+	static setDefs = (setDefaults) => {
+		for (const [key, value] of Object.entries(setDefaults)) if (Page.defaultKeysAllowed.includes(key)) Page.defaults[key] = value;
+	};
+	static buildNavbar(navObj) {
+		let output = '';
+		for (const each of navObj) {
+			output += `<a class="nav-link" href="${each.href}">${each.title}</a>`;
+		}
 
-
-        return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="#">Navbar</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,47 +97,38 @@ class Page {
                         </div>
                     </div>
                 </nav>`;
-    }
+	}
 
-    constructor(args) {
-        if (args.navbar)
-            this.navbar = args.navbar;
+	constructor(args) {
+		this.navbar = args.navbar || [];
+		this.style = args.style || {};
+		this.title = args.title || '';
+		this.body = args.body || '';
+		this.header = args.header || '';
+		this.footer = args.footer || '';
+		this.backgroundColor = args.backgroundColor || '#Fddfed';
+		this.topButton = args.topButtonText || 'Top Button';
+	}
 
-        this.style = args.style || {};
-        this.title = args.title || '';
-        if (args.body)
-            this.body = args.body;
-        if (args.header)
-            this.header = args.header;
-        if (args.footer)
-            this.footer = args.footer 
-        this.backgroundColor = args.backgroundColor || "#Fddfed";
-        this.topButton = args.topButtonText || "Top Button"
-        
-    }        
+	get navbar() {
+		return this._navbar.length ? Page.buildNavbar(this._navbar) : Page.defaults.navbar || '';
+	}
 
-    get navbar() {
-        return this._navbar.length ? Page.buildNavbar(this._navbar) : defaults.navbar || ''
-    }
+	set navbar(navbarArr) {
+		this._navbar = navbarArr;
+	}
 
-    set navbar(navbarArr) {
-        this._navbar = navbarArr;
-    }
+	get topButton() {
+		return `<button onclick="topFunction()" id="topButton" title="${this._topButtonText}">${this._topButtonText || 'Top Button'}</button>`;
+	}
 
-    get topButton() {
-       return `<button onclick="topFunction()" id="topButton" title="${this._topButtonText}">${this._topButtonText || 'Top Button'}</button>`
-    }
+	set topButton(topButtonText) {
+		this._topButtonText = topButtonText;
+	}
 
-    set topButton(topButtonText) {
-        this._topButtonText = topButtonText;
-       
-    }
-
-    
-
-    get style() {
-        const style = this._style;
-        return `
+	get style() {
+		const style = this._style;
+		return `
         header {
             background-color: #${style.header.background_color};
             color: #${style.header.text_color};
@@ -160,111 +152,72 @@ class Page {
         }
              
          `;
-    }
+	}
 
-    set style(args) {
-        let styleArgs = args;
-        if (styleArgs.primaryColor) {
-            styleArgs = {
-                header: { background_color: args.primaryColor },
-                body: { background_color: args.primaryColor, text_color: args.primaryColor }
-            };
-        }   
-        const styledef = Page.getStyleObject('default');
-        const merge = mergeDeep(styledef, styleArgs);
-        this._style = merge;
-    }
+	set style(args) {
+		let styleArgs = args;
+		if (styleArgs.primaryColor) {
+			styleArgs = {
+				header: { background_color: args.primaryColor },
+				body: { background_color: args.primaryColor, text_color: args.primaryColor },
+			};
+		}
+		const styledef = Page.getStyleObject('default');
+		const merge = mergeDeep(styledef, styleArgs);
+		this._style = merge;
+	}
 
-    get header() {
-        return `
+	get header() {
+		return `
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${this.title}</title>
-            ${ this._header || Page.defaults.header }
+            ${this._header || Page.defaults.header}
         </head>`;
-    }
+	}
 
-    set header(header) {
-        this._header = header;
-    }
+	set header(header) {
+		this._header = header;
+	}
 
-    get body() {
-        const banner = Page.defaults.banner || ''
-        const body = this._body || Page.defaults.body || ''
-        const navbar = this.navbar 
-        return banner + navbar + body;
-        
-    }
+	get body() {
+		const banner = Page.defaults.banner || '';
+		const body = this._body || Page.defaults.body || '';
+		const navbar = this.navbar;
+		return banner + navbar + body;
+	}
 
-    set body(content) {
-        this._body = content;
-    }
+	set body(content) {
+		this._body = content;
+	}
 
-    get footer() {
-        return this._footer || Page.defaults.footer || ''
-    }
+	get footer() {
+		return this._footer || Page.defaults.footer || '';
+	}
 
-    set footer(content) {
-        this._footer = content;
-    }
+	set footer(content) {
+		this._footer = content;
+	}
 
-    render() {
-        return this.header + this.body + this.footer + this.topButton;
-    }  
+	render() {
+		return this.header + this.body + this.footer + this.topButton;
+	}
 }
 
-
-var src_default = {
-    async fetch(request, env, ctx) {
-        const url = request.url;
-
-        function getParameterByName(name) {
-            name = name.replace(/[\[\]]/g, "\\$&");
-            name = name.replace(/\//g, "/");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            else if (!results[2]) return "";
-            else if (results[2]) {
-                results[2] = results[2].replace(/\//g, "/");
-            }
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-
-        function rawHtmlResponse(html) {
-            return new Response(html, {
-                headers: {
-                    "content-type": "text/html;charset=UTF-8",
-                },
-            });
-        }
-
-        function BadRequestException(reason) {
-            this.status = 400;
-            this.statusText = "Bad Request";
-            this.reason = reason;
-        }
-
-        const { host, protocol, pathname } = new URL(request.url);
-        if ("https:" !== protocol || "https" !== request.headers.get("x-forwarded-proto")) {
-           // throw new BadRequestException("Please use a HTTPS connection.");
-        }
-
-        const pageDefaults = {
-            header: `
+const pageDefaults = {
+	header: `
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-                <style>${this.style}</style>
                 <script src="https://kit.fontawesome.com/2101804b79.js" crossorigin="anonymous"></script>
                 <Link href="https://a-trainstation.github.io/css/bs.add.css" rel="stylesheet">
                 `,
-            banner:`
+	banner: `
                 <header class="bg-dark text-white text-center py-3">
                 <h1 id="banner-text">Life of Alexander Meiners</h1>
                 </header>`,
-            footer:`
+	footer: `
                 <footer class="footer mt-3 py-3 bg-light">
                 <div class="container text-center">
                 <h2>Let's Keep in Contact!</h2>
@@ -277,258 +230,267 @@ var src_default = {
                     </div>
                 </div>
             </footer>`,
-            navbar: Page.buildNavbar(_navbardef)
-        }
-        Page.setDefs(pageDefaults)
-        switch (pathname) {
-            case "/": { 
-              const htmlContent =  `<div class="container">
-              <div class="row">
-                  <!-- Profile Image Column -->
-                  <div class="col-md-3">
-                      <div class="Images" style="margin-bottom: 30px;">
-                          <img class="profile-img d-block m-3" alt="Profile-image" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/IMG_2449.JPG" style="max-width: 200px; height: auto; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);">
-                      </div>
-                      <div class="contact-info">
-                        <a href="mailto:alexandergregm25@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i><span class="sr-only">alexandergregm25@gmail.com</span></a>
-                        <a href="https://a-trainstation.github.io/AlexM/"><i class="fa fa-github" aria-hidden="true"></i><span class="sr-only">yourwebsite.com</span></a>
-                        <a href="https://twitter.com/ATrainMeiners"><i class="fa fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
-                        <a href="https://www.linkedin.com/in/alex-meiners-209851288"><i class="fa fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
-                        <a href="https://www.facebook.com/profile.php?id=100007566049250&mibextid=LQQJ4d"><i class="fa fa-facebook" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
-                    </div>
-                      <h2>CONTACT ME</h2>
-                      <form style="display: flex; flex-direction: column; align-items: flex-start;">
-                          <label for="Name"> Name</label>
-                          <input type="text" id="Your Name" name="your name" style="margin-bottom: 10px;">
-                          <label for="Email">Email</label>
-                          <input type="text" id="Your Email" name="your email" style="margin-bottom: 10px;">
-                          <fieldset style="border: none; margin-bottom: 10px; padding: 10px 0;">
-                              <legend>Would you like to read my book? </legend>
-                              <input type="radio" id="yes" name="name of book">
-                              <label for="yes"> Yes</label>
-                              <input type="radio" id="no" name="name of my book">
-                              <label for="no"> No</label>
-                          </fieldset>
-                          <button type="submit" class="btn btn-primary">Submit</button>
-                      </form>
-                  </div>
-                  
-                  <!-- Body Content Column -->
-                  <div class="col-md-9">
-                      <div>
-                          <h1>There is a Book inside everyone's life!</h1>
-                          <p>Hi Everyone!, Welcome to my Website, My Name is Alexander Meiners,
-                              I am former and current Student at Indian Hills Community College, and 
-                              when I went to school here before, it was Business and Marketing. 
-                              My Life is like a book because oddly enough I write books for a living. My future,
-                              wasn't always what I anticipated, but from hard work, perseverance, determination,
-                              there was hope. 
-                          </p>
-                      </div>
+	navbar: Page.buildNavbar(_navbardef),
+};
+Page.setDefs(pageDefaults);
+
+app.get('/', async (c) => {
+	const htmlContent = `
+                <div class="container">
+                    <div class="row">
+                        <!-- Profile Image Column -->
+                        <div class="col-md-3">
+                            <div class="Images" style="margin-bottom: 30px;">
+                                <img class="profile-img d-block m-3" alt="Profile-image" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/IMG_2449.JPG" style="max-width: 200px; height: auto; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);">
+                            </div>
+                            <div class="contact-info">
+                                <a href="mailto:alexandergregm25@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i><span class="sr-only">alexandergregm25@gmail.com</span></a>
+                                <a href="https://a-trainstation.github.io/AlexM/"><i class="fa fa-github" aria-hidden="true"></i><span class="sr-only">yourwebsite.com</span></a>
+                                <a href="https://twitter.com/ATrainMeiners"><i class="fa fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                                <a href="https://www.linkedin.com/in/alex-meiners-209851288"><i class="fa fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
+                                <a href="https://www.facebook.com/profile.php?id=100007566049250&mibextid=LQQJ4d"><i class="fa fa-facebook" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
+                            </div>
+                            <h2>CONTACT ME</h2>
+                            <form id="contactForm" style="display: flex; flex-direction: column; align-items: flex-start;" method="post" action="/">
+                                <label for="name"> Name</label>
+                                <input type="text" id="name" name="name" style="margin-bottom: 10px;">
+                                <label for="email">Email</label>
+                                <input type="text" id="email" name="email" style="margin-bottom: 10px;">
+                                <fieldset style="border: none; margin-bottom: 10px; padding: 10px 0;">
+                                    <legend>Would you like to read my book? </legend>
+                                    <input type="radio" id="yes" name="book" value="yes">
+                                    <label for="yes"> Yes</label>
+                                    <input type="radio" id="no" name="book" value="no">
+                                    <label for="no"> No</label>
+                                </fieldset>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>             
+                        </div>
+                        
+                        <!-- Body Content Column -->
+                        <div class="col-md-9">
+                            <div>
+                                <h1>There is a Book inside everyone's life!</h1>
+                                <p>Hi Everyone!, Welcome to my Website, My Name is Alexander Meiners,
+                                    I am former and current Student at Indian Hills Community College, and 
+                                    when I went to school here before, it was Business and Marketing. 
+                                    My Life is like a book because oddly enough I write books for a living. My future,
+                                    wasn't always what I anticipated, but from hard work, perseverance, determination,
+                                    there was hope. 
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>` 
-              const style = Page.getStyleObject('greenlantern')
-              const page = new Page({navbar: _navbardef, title: "home",style: style, body: htmlContent}) 
-               return rawHtmlResponse (page.render())
-               
-               
-            }
-            case "/bio": { 
-               const age = currentAge("1997-11-19")
-             const htmlContent = ` <div class="container"> <h1>COUNTRY FLAG</h1>
-             <img id="Flags" alt="India Nation Flag" src="../Images/IndiaFlag.jpeg">
-             <img id="Flags" alt="United States Of America" src="../Images/American Flag.jpg">
-           
-             <h2>History</h2>
-             <P class="p1">My Name is Alexander Meiners and I am ${age} years from Mumbai, India. 
-                 I was born on November 19th, 1997. I was Adopted at the age of 3 and 
-                 live in Ottumwa, IA.
-               
-                 Hi Everyone! Welcome to my page, here I will talk about my life, careers, achievements. Let’s get started. 
-                 For those of you who are new to my LinkedIn, my name is Alexander Meiners 
-                 or Alex, I am 26 years old from Ottumwa, IA.
-                 I am a Graduate from OHS, Class of 2016. GO BULLDOGS!  
-                
-                 I graduated with a 3.85GPA, high academic achievement, honors student, concert band soloist. 
-                 In years 2016 -2017, I completed my A.A degree at IHCC and 
-                 later went on to earn my Master’s Degree in Business Management & Marketing, M.A in 2018-2021. 
-                
-                 Jobs that I had throughout high school and after college consisted of: 
-                 HY-VEE, Marketing, Business Administrator, Real Estate
-                 
-                 Personal Life:
-                 In my spare time I attend church on Sunday’s, I am activities coordinator for the youth in my church. 
-                 I love spending time with my Family, Friends, my amazing Girlfriend, plus my dogs. 
-                 I enjoy watching sports, going on bikes rides, rollerblading, Tennis and have a passion for writing. </P>
-         
-             <h3>CHILDHOOD</h3>
-             <p class="p2">When I was young, I was a rambunctious child and you wouldn't believe it, but
-                 I was always into the sugar bowl, haha. Sports was a huge part of my life growing up,
-                 at the age of 5 I played soccer, and rode my bikes and I loved running. When growing up
-                 I attended Eisenhower Elementary school, where I had the best of friends. My favorite part of school,
-                 was outside reces, gym class and lunch. 
-             </p>
-             <h4>Sports</h4>
-             <p class="p3">
-               I am a huge sports fan, I love watching Hockey, some football, and college Sports.
-                 One of my favorite sports team is the Pittsburgh Penguins.Ever since I was a kid,
-                 my favorite animal was a Penguin and when the Penguins had a pro sports team, I followed
-                 the Pittsburgh Penguins ever since. In addition to Sports, my family and I loves watching
-                 NBA, NFL, Premire League and Formula 1 Racing. 
-             </p>
-             <div>
-                 <img id="blog-image" alt="blog-image" src="../Images/IMG_2083.JPG">
-                 <img id="blog-image" alt="profile-image" src="../Images/IMG_2449.JPG">
-                 <img id="blog-image" alt="blog-image" src="../Images/IMG_2270.JPEG">
-          
-             </div>
-                 
-               <h5>Family</h5>
-             <div id="Family">
-               <p>In my family I have 3 sisters and 1 brother and I am the second oldest.
-                 We all lived in Iowa. Everyone enjoyed spending the holidays at Grandma and Grandpas house.
-                 The best part is our family reunions because we don't get to see our family all the time.
-                 In my family, we play Wheel of Fortune game to see who does which chore during the week,
-                 we enjoy playing board games, Friday Movie Nights, and playing outside. My Father,
-                 brother and I have been working on outdoor projects and enjoy riding bikes.
-               </p>
-             </div>
-             <div class="Pets">
-               <p>I have 2 dogs, 2 cats.
-                 My dogs name are Lucky and Scooby. 
-                 My cats name are Molly and Milo.
-               <img id="Lucky" alt="dogs" src="../Images/IMG_2579.JPG">
-             </p>
-           </div> </div>
-             ` 
-             const page = new Page({navbar: _navbardef, title: "home", body: htmlContent}) 
-              return rawHtmlResponse (page.render())
+            `;
+    const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
+    return c.html(page.render())
+   
+});
+
+app.post('/', async c  => {
+	const body = await c.req.parseBody()
+	return c.json(body);
+});
+
+// switch (pathname) {
+//     case "/": {
+
+//     }
+
+app.get('/bio', async (c) => {
+	const age = currentAge('1997-11-19');
+	const htmlContent = ` <div class="container"> <h1>COUNTRY FLAG</h1>
+                <img id="Flags" alt="India Nation Flag" src="../Images/IndiaFlag.jpeg">
+                <img id="Flags" alt="United States Of America" src="../Images/American Flag.jpg">
               
-           }
-           case "/goals": { 
-             const htmlContent = ` <div class="container"> <h2>IHCC COMPUTER SOFTWARE DEVELOPMENT PROGRAM</h2>
-             <P>I am studying Computer Software Development at IHCC, 2023-2025.
-                 The nice part about going to Indian Hills is that it close to home and very cheap.
-         
-                 <script src="../Career.js"></script>
-                 <ul id="SkillsList"></ul>
+                <h2>History</h2>
+                <P class="p1">My Name is Alexander Meiners and I am ${age} years from Mumbai, India. 
+                    I was born on November 19th, 1997. I was Adopted at the age of 3 and 
+                    live in Ottumwa, IA.
+                  
+                    Hi Everyone! Welcome to my page, here I will talk about my life, careers, achievements. Let’s get started. 
+                    For those of you who are new to my LinkedIn, my name is Alexander Meiners 
+                    or Alex, I am 26 years old from Ottumwa, IA.
+                    I am a Graduate from OHS, Class of 2016. GO BULLDOGS!  
+                   
+                    I graduated with a 3.85GPA, high academic achievement, honors student, concert band soloist. 
+                    In years 2016 -2017, I completed my A.A degree at IHCC and 
+                    later went on to earn my Master’s Degree in Business Management & Marketing, M.A in 2018-2021. 
+                   
+                    Jobs that I had throughout high school and after college consisted of: 
+                    HY-VEE, Marketing, Business Administrator, Real Estate
+                    
+                    Personal Life:
+                    In my spare time I attend church on Sunday’s, I am activities coordinator for the youth in my church. 
+                    I love spending time with my Family, Friends, my amazing Girlfriend, plus my dogs. 
+                    I enjoy watching sports, going on bikes rides, rollerblading, Tennis and have a passion for writing. </P>
+            
+                <h3>CHILDHOOD</h3>
+                <p class="p2">When I was young, I was a rambunctious child and you wouldn't believe it, but
+                    I was always into the sugar bowl, haha. Sports was a huge part of my life growing up,
+                    at the age of 5 I played soccer, and rode my bikes and I loved running. When growing up
+                    I attended Eisenhower Elementary school, where I had the best of friends. My favorite part of school,
+                    was outside reces, gym class and lunch. 
+                </p>
+                <h4>Sports</h4>
+                <p class="p3">
+                  I am a huge sports fan, I love watching Hockey, some football, and college Sports.
+                    One of my favorite sports team is the Pittsburgh Penguins.Ever since I was a kid,
+                    my favorite animal was a Penguin and when the Penguins had a pro sports team, I followed
+                    the Pittsburgh Penguins ever since. In addition to Sports, my family and I loves watching
+                    NBA, NFL, Premire League and Formula 1 Racing. 
+                </p>
+                <div>
+                    <img id="blog-image" alt="blog-image" src="../Images/IMG_2083.JPG">
+                    <img id="blog-image" alt="profile-image" src="../Images/IMG_2449.JPG">
+                    <img id="blog-image" alt="blog-image" src="../Images/IMG_2270.JPEG">
              
-                 <button onclick="RetrieveDataFJson()">Retrieve Data</button>
-                 <div>
-                     <h3>SKILLS</h3>
-                     <ul>
-                         <li>▪ Python</li>
-                         <li>▪ Programming Logic</li>
-                         <li>▪ Webpage Development</li> 
-                         <li>▪ Employability skills</li>
-                         <li>▪ Intro to computers</li>
-                         <li>▪ JavaScript</li>
-                         <li>▪ Java2</li>
-                         <li>▪ Web Design</li>
-                         <li>▪ Graphic User Interface</li>
-                         <li>▪ PHP/APACHE/li>
-                         <li>▪ INTERNSHIP CLASS</li>
-                         <li>▪ Python/Data Structures</li>
-                         <li>▪ Business Analysis</li>
-                     </ul>
-                 </div>
-                 <div>
-                     <h4>Class Projects</h4>
-                     <ul>
-                         <li>▪ C# Project BaseBall</li>
-                         <li>▪ Webpage Development Personal Project</li> 
-                         <li>▪ Employability skills building a Resume</li>
-                         <li>▪ Intro to computers Powerpoint Travel Trip</li>
-                         <li>▪ JavaScript OMDB Movie Database</li>
-                         <li>▪ Java2 Nutrition Project or GUI </li>
-                         <li>▪ Web Design Resume Project</li>
-                     </ul>
-                 </div>
-                 
-         <div class="Networking">
-              <h4>NetWorking</h4>
-             <p>Networking is a key point when working with Computers. 
-                 Computer Software Development has numerous opportunites in the industry.
-                 An old saying goes "Its not so much what you know, but Who you know."
-                 It may seem cliche, but Networking is very key when you know people, 
-                 they can help guide you to what you need to do next for a job.
-                 Earning a Masters degree in Business Marketing and Management, is one of my hightlight,
-             </p>
-         <div class="College Class">
-             <h5>College Classes</h5>
-             <p>Does this sound familiar? Well what do you know, It is August 28, 2023 and 
-                 I am in my 1st year at IHCC, taking on CSD. Computer Software Development is 
-                 one of those careers that takes patience, time and positivity. I am taking Python,
-                 with "Susan Wilson" and she is the nicest teacher you could ever ask for.
-                 In addition, I am studying Beginning Webpage Development, and who better else,
-                 to have as an instructor, "James Warner". I am learning so much about programming,
-                 coding, HTML, and CSS and all sorts of fun projects and lab units.  
-             </p>
-             <table>
-                 <h6>Buena Vista University</h6>
-                 <tr>
-                     <th>Buena Vista University</th>
-                     <td>Years 2017 - 2021</td>
-                 </tr>
-                 <tr>
-                     <th>Degree (MBA) (M.S)</th>
-                     <td>Master's in Business Marketing and Management</td>
-                 </tr>
-                 <tr>
-                     <th>Classes</th>
-                     <td>Business, Accounting/Marketing</td>
-                 </tr>
-                 <tr>
-                     <th>Location</th>
-                     <td>Ottumwa, IA</td>
-                 </tr>
-                 <tr>
-                     <th>Career Job</th>
-                     <td>Independent Marketer</td>
-                 </tr>
-             </table>
-         
-         <table>
-         <div class="COMPUTER SOFTWARE DEVELOPMENT">
-             <h7>CSD Degree</h7>
-                 <tr>
-                     <th>Term 1</th>
-                     <td>3 Months 5 classes</td>
-                 </tr>
-                 <tr>
-                     <th>1st Class</th>
-                     <td>Python</td>
-                 </tr>
-                 <tr>
-                     <th>2nd class</th>
-                     <td>WebPage Development</td>
-                 </tr>
-                 <tr>
-                     <th>3rd Class</th>
-                     <td>Programming logic</td>
-                 </tr>
-                 <tr>
-                     <th>4th Class</th>
-                     <td>Employability</td>
-                 </tr>
-                 <tr>
-                     <th>Online Class</th>
-                     <td>Intro to Computers</td>
-                 </tr>
-         
-             </table>
-             
-             <img id="blog-image" alt="quotes" src="../Images/Quotes on computers.jpg"> </div>` 
-             const style = Page.getStyleObject('blueberry')
-             const page = new Page({navbar: _navbardef, title: "home", style: style, body: htmlContent}) 
-              return rawHtmlResponse (page.render())
-              
-           }
-           
-           case "/engagement": { 
-             const htmlContent = `<div class="container">
+                </div>
+                    
+                  <h5>Family</h5>
+                <div id="Family">
+                  <p>In my family I have 3 sisters and 1 brother and I am the second oldest.
+                    We all lived in Iowa. Everyone enjoyed spending the holidays at Grandma and Grandpas house.
+                    The best part is our family reunions because we don't get to see our family all the time.
+                    In my family, we play Wheel of Fortune game to see who does which chore during the week,
+                    we enjoy playing board games, Friday Movie Nights, and playing outside. My Father,
+                    brother and I have been working on outdoor projects and enjoy riding bikes.
+                  </p>
+                </div>
+                <div class="Pets">
+                  <p>I have 2 dogs, 2 cats.
+                    My dogs name are Lucky and Scooby. 
+                    My cats name are Molly and Milo.
+                  <img id="Lucky" alt="dogs" src="../Images/IMG_2579.JPG">
+                </p>
+              </div> </div>
+                `;
+	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
+	return c.html(page.render())
+});
+
+app.get('/goals', async (c) => {
+	const htmlContent = ` <div class="container"> <h2>IHCC COMPUTER SOFTWARE DEVELOPMENT PROGRAM</h2>
+            <P>I am studying Computer Software Development at IHCC, 2023-2025.
+                The nice part about going to Indian Hills is that it close to home and very cheap.
+        
+                <script src="../Career.js"></script>
+                <ul id="SkillsList"></ul>
+            
+                <button onclick="RetrieveDataFJson()">Retrieve Data</button>
+                <div>
+                    <h3>SKILLS</h3>
+                    <ul>
+                        <li>▪ Python</li>
+                        <li>▪ Programming Logic</li>
+                        <li>▪ Webpage Development</li> 
+                        <li>▪ Employability skills</li>
+                        <li>▪ Intro to computers</li>
+                        <li>▪ JavaScript</li>
+                        <li>▪ Java2</li>
+                        <li>▪ Web Design</li>
+                        <li>▪ Graphic User Interface</li>
+                        <li>▪ PHP/APACHE/li>
+                        <li>▪ INTERNSHIP CLASS</li>
+                        <li>▪ Python/Data Structures</li>
+                        <li>▪ Business Analysis</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Class Projects</h4>
+                    <ul>
+                        <li>▪ C# Project BaseBall</li>
+                        <li>▪ Webpage Development Personal Project</li> 
+                        <li>▪ Employability skills building a Resume</li>
+                        <li>▪ Intro to computers Powerpoint Travel Trip</li>
+                        <li>▪ JavaScript OMDB Movie Database</li>
+                        <li>▪ Java2 Nutrition Project or GUI </li>
+                        <li>▪ Web Design Resume Project</li>
+                    </ul>
+                </div>
+                
+        <div class="Networking">
+             <h4>NetWorking</h4>
+            <p>Networking is a key point when working with Computers. 
+                Computer Software Development has numerous opportunites in the industry.
+                An old saying goes "Its not so much what you know, but Who you know."
+                It may seem cliche, but Networking is very key when you know people, 
+                they can help guide you to what you need to do next for a job.
+                Earning a Masters degree in Business Marketing and Management, is one of my hightlight,
+            </p>
+        <div class="College Class">
+            <h5>College Classes</h5>
+            <p>Does this sound familiar? Well what do you know, It is August 28, 2023 and 
+                I am in my 1st year at IHCC, taking on CSD. Computer Software Development is 
+                one of those careers that takes patience, time and positivity. I am taking Python,
+                with "Susan Wilson" and she is the nicest teacher you could ever ask for.
+                In addition, I am studying Beginning Webpage Development, and who better else,
+                to have as an instructor, "James Warner". I am learning so much about programming,
+                coding, HTML, and CSS and all sorts of fun projects and lab units.  
+            </p>
+            <table>
+                <h6>Buena Vista University</h6>
+                <tr>
+                    <th>Buena Vista University</th>
+                    <td>Years 2017 - 2021</td>
+                </tr>
+                <tr>
+                    <th>Degree (MBA) (M.S)</th>
+                    <td>Master's in Business Marketing and Management</td>
+                </tr>
+                <tr>
+                    <th>Classes</th>
+                    <td>Business, Accounting/Marketing</td>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <td>Ottumwa, IA</td>
+                </tr>
+                <tr>
+                    <th>Career Job</th>
+                    <td>Independent Marketer</td>
+                </tr>
+            </table>
+        
+        <table>
+        <div class="COMPUTER SOFTWARE DEVELOPMENT">
+            <h7>CSD Degree</h7>
+                <tr>
+                    <th>Term 1</th>
+                    <td>3 Months 5 classes</td>
+                </tr>
+                <tr>
+                    <th>1st Class</th>
+                    <td>Python</td>
+                </tr>
+                <tr>
+                    <th>2nd class</th>
+                    <td>WebPage Development</td>
+                </tr>
+                <tr>
+                    <th>3rd Class</th>
+                    <td>Programming logic</td>
+                </tr>
+                <tr>
+                    <th>4th Class</th>
+                    <td>Employability</td>
+                </tr>
+                <tr>
+                    <th>Online Class</th>
+                    <td>Intro to Computers</td>
+                </tr>
+        
+            </table>
+            
+            <img id="blog-image" alt="quotes" src="../Images/Quotes on computers.jpg"> </div>`;
+	
+	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
+	return c.html(page.render())
+});
+
+app.get('/engagement', async (c) => {
+	const htmlContent = `<div class="container">
             <div class="Book"> 
              <h2 id="Rollerbading Dance Off Book"> Rollerblading Dance Off book</h2>
              <h3 id="Aurhor">Written by Alexander Meiners – June 4th, 2017</h3>
@@ -699,94 +661,96 @@ var src_default = {
             window.onload = function() {
                 handleQuiz();
             };
-        </script> </div>` 
-                const style = Page.getStyleObject('purplecrayon')
-                const page = new Page({navbar: _navbardef, title: "home", style: style, body: htmlContent}) 
-                return rawHtmlResponse (page.render())
-                
-            }
-           case "/gallary": { 
-             const htmlContent = `<div class="container mt-5">
-             <div class="row">
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Warriors Logo" src="https://picsum.photos/200">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Vivint Arena" src="../Images/IMG_1215.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Jazz Game" src="../Images/IMG_1424.JPEG">
-                 </div>
-             </div>
-             <div class="row">
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Hello Abraham Lincoln" src="../Images/IMG_1207.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Sunrise UTAH" src="../Images/IMG_1301.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Museum" src="../Images/IMG_1292.JPEG">
-                 </div>
-             </div>
-             <div class="row">
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="BYU Museum" src="../Images/IMG_1282.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Anmials" src="../Images/IMG_1285.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="My Friends" src="../Images/IMG_1280.JPEG">
-                 </div>
-             </div>
-             <div class="row">
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="PPG Paints Arena" src="../Images/IMG_2586.JPG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="5X Champions" src="../Images/IMG_2585.JPG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="Sid The Kid" src="../Images/IMG_2584.JPG">
-                 </div>
-             </div>
-             <p>In the past few years, I got to explore the great State of Salt Lake City,UT.
-                 During my 2 week trip, I had the pleasure to stay with my friends Josh, and Kaley
-                 and his family. I got to take pictures of Salt Lake City and you can explore Utah
-                 with me. Take a look and see!!!. 
-             </p2>
-             <div class="row">
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="SLC, UT" src="../Images/IMG_1351.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="SLC, UT" src="../Images/IMG_1363.JPEG">
-                 </div>
-                 <div class="col-md-4">
-                     <img class="img-fluid" alt="SLC, UT" src="../Images/IMG_1372.JPEG">
-                 </div>
-             </div>
-         </div> ` 
-             const page = new Page({navbar: _navbardef, title: "home", body: htmlContent}) 
-              return rawHtmlResponse (page.render())
-              
-           }
-           case "/": { 
-             const htmlContent = ` ` 
-             const page = new Page({navbar: _navbardef, title: "home", body: htmlContent}) 
-              return rawHtmlResponse (page.render())
-              
-           }
-          }
-          const redirectURL = await env.NAMESPACE.get(pathname);
-          if (!redirectURL) {
-            return new Response("Not Found.", { status: 404 });
-          }
-          return Response.redirect(redirectURL, 301);
-        }
-       };
-       
-       export {
-        src_default as default
-       };
+        </script> </div>`;
+	const style = Page.getStyleObject('purplecrayon');
+	const page = new Page({ navbar: _navbardef, title: 'home', style: style, body: htmlContent });
+	return c.html(page.render())
+});
+
+app.get('/gallary', async (c) => {
+	const htmlContent = `<div class="container mt-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Warriors Logo" src="https://picsum.photos/200">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Vivint Arena" src="../Images/IMG_1215.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Jazz Game" src="../Images/IMG_1424.JPEG">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Hello Abraham Lincoln" src="../Images/IMG_1207.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Sunrise UTAH" src="../Images/IMG_1301.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Museum" src="../Images/IMG_1292.JPEG">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="BYU Museum" src="../Images/IMG_1282.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Anmials" src="../Images/IMG_1285.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="My Friends" src="../Images/IMG_1280.JPEG">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="PPG Paints Arena" src="../Images/IMG_2586.JPG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="5X Champions" src="../Images/IMG_2585.JPG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="Sid The Kid" src="../Images/IMG_2584.JPG">
+                </div>
+            </div>
+            <p>In the past few years, I got to explore the great State of Salt Lake City,UT.
+                During my 2 week trip, I had the pleasure to stay with my friends Josh, and Kaley
+                and his family. I got to take pictures of Salt Lake City and you can explore Utah
+                with me. Take a look and see!!!. 
+            </p2>
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="SLC, UT" src="../Images/IMG_1351.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="SLC, UT" src="../Images/IMG_1363.JPEG">
+                </div>
+                <div class="col-md-4">
+                    <img class="img-fluid" alt="SLC, UT" src="../Images/IMG_1372.JPEG">
+                </div>
+            </div>
+        </div> `;
+	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
+	return c.html(page.render())
+});
+
+app.get('/', async (c) => {
+	const htmlContent = ` `;
+	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
+	return c.html(page.render())
+});
+
+//  const htmlContent = ` `
+//  const page = new Page({navbar: _navbardef, title: "home", body: htmlContent})
+//   return rawHtmlResponse (page.render())
+
+app.notFound((c) => {
+	const page = new Page({
+		pageTitle: '404 | Not Found!',
+		body: `
+                <span class='fs-3'>404 Not Found!</span> <hr> PAGE NOT FOUND! Head <a href='/'>home</a> to try and find what you're looking for.`,
+	});
+	return c.html(page.render())
+});
+
+export default app;
