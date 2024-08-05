@@ -288,15 +288,79 @@ app.get('/', async (c) => {
    
 });
 
-app.post('/', async c  => {
-	const body = await c.req.parseBody()
-	return c.json(body);
+app.post('/', async c => {
+    const { name, email, book } = await c.req.parseBody();
+
+    // Create a custom message using destructured variables
+    const message = `Hello Alex,
+
+You have received a new book request!
+
+Name: ${name}
+Email: ${email}
+Book Requested: ${book}
+
+Best regards,
+Your App`;
+
+    // Use the destructured variables in your API call or other logic
+    const response = await fetch('https://api.sparkpost.com/api/v1/transmissions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'e946110b2cafe1c2f580f775d7a8bf60bbb82978' },
+      body: JSON.stringify({ 
+        options: { sandbox: false }, 
+        content: { 
+          from: 'alex@a-train-station.com', 
+          subject: 'New Book Request Received', 
+          text: message // Using the custom message
+        }, 
+        recipients: [{ address: 'alex@a-train-station.com' }] 
+      })
+    });
+
+    console.log(await response.json());
+    return c.redirect('/');
 });
 
-// switch (pathname) {
-//     case "/": {
 
+// app.post('/', async c => {
+//     const { name, email, book, notify } = await c.req.parseBody();
+
+//     // Check if the user wants to be notified
+//     if (notify) {
+//         // Create a custom message using destructured variables
+//         const message = `Hello Alex,
+
+// You have received a new book request!
+
+// Name: ${name}
+// Email: ${email}
+// Book Requested: ${book}
+
+// Best regards,
+// Your App`;
+
+//         // Use the destructured variables in your API call or other logic
+//         const response = await fetch('https://api.sparkpost.com/api/v1/transmissions', {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json', 'Authorization': 'e946110b2cafe1c2f580f775d7a8bf60bbb82978' },
+//           body: JSON.stringify({ 
+//             options: { sandbox: false }, 
+//             content: { 
+//               from: 'alex@a-train-station.com', 
+//               subject: 'New Book Request Received', 
+//               text: message // Using the custom message
+//             }, 
+//             recipients: [{ address: 'alex@a-train-station.com' }] 
+//           })
+//         });
+
+//         console.log(await response.json());
 //     }
+
+//     return c.redirect('/');
+// });
+
 
 app.get('/bio', async (c) => {
 	const age = currentAge('1997-11-19');
