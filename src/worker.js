@@ -150,76 +150,80 @@ class Page {
             margin-right: 30px;
             margin-left: 30px;
         }
-          .navbar-nav {
-        flex-direction: row; /* Default direction for larger screens */
-    }
-
-    /* Media queries for different screen sizes */
-    /* Extra small devices (phones, less than 576px) */
-    @media (max-width: 575.98px) {
-        .navbar-nav {
-            flex-direction: column; /* Stack vertically on very small screens */
+         .navbar-nav {
+            flex-direction: row; /* Default direction for larger screens */
         }
-
-        .navbar-toggler {
-            display: block; /* Ensure the hamburger menu is visible */
+        /* Media queries for different screen sizes */
+        /* Extra small devices (phones, less than 576px) */
+        @media (max-width: 575.98px) {
+            .navbar-nav {
+                flex-direction: column; /* Stack vertically on very small screens */
+            }
+            .navbar-toggler {
+                display: block; /* Ensure the hamburger menu is visible */
+            }
         }
-    }
-
-    /* Small devices (phones, 576px and up) */
-    @media (min-width: 576px) and (max-width: 767.98px) {
-        .navbar-nav {
-            flex-direction: column; /* Stack vertically on small screens */
+        /* Small devices (phones, 576px and up) */
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            .navbar-nav {
+                flex-direction: column; /* Stack vertically on small screens */
+            }
+            .navbar-toggler {
+                display: block; /* Ensure the hamburger menu is visible */
+            }
         }
-
-        .navbar-toggler {
-            display: block; /* Ensure the hamburger menu is visible */
+        /* Medium devices (tablets, 768px and up) */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .navbar-nav {
+                flex-direction: row; /* Horizontal layout for tablets */
+            }
+            .navbar-toggler {
+                display: none; /* Hide the hamburger menu on tablets */
+            }
         }
-    }
-
-    /* Medium devices (tablets, 768px and up) */
-    @media (min-width: 768px) and (max-width: 991.98px) {
-        .navbar-nav {
-            flex-direction: row; /* Horizontal layout for tablets */
+        /* Large devices (desktops, 992px and up) */
+        @media (min-width: 992px) {
+            .navbar-nav {
+                flex-direction: row; /* Horizontal layout for larger screens */
+            }
+            .navbar-toggler {
+                display: none; /* Hide the hamburger menu on desktops */
+            }
         }
-
-        .navbar-toggler {
-            display: none; /* Hide the hamburger menu on tablets */
+        /* Landscape orientation for mobile devices */
+        @media (orientation: landscape) and (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column; /* Stack vertically on landscape mode */
+            }
+            .navbar-toggler {
+                display: block; /* Ensure the hamburger menu is visible */
+            }
         }
-    }
-
-    /* Large devices (desktops, 992px and up) */
-    @media (min-width: 992px) {
-        .navbar-nav {
-            flex-direction: row; /* Horizontal layout for larger screens */
+        /* Portrait orientation for mobile devices */
+        @media (orientation: portrait) and (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column; /* Stack vertically on portrait mode */
+            }
+            .navbar-toggler {
+                display: block; /* Ensure the hamburger menu is visible */
+            }
         }
-
-        .navbar-toggler {
-            display: none; /* Hide the hamburger menu on desktops */
+        /* Style for the top button */
+        #topButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
         }
-    }
-
-    /* Landscape orientation for mobile devices */
-    @media (orientation: landscape) and (max-width: 768px) {
-        .navbar-nav {
-            flex-direction: column; /* Stack vertically on landscape mode */
+        #topButton:hover {
+            background-color: #0056b3;
         }
-
-        .navbar-toggler {
-            display: block; /* Ensure the hamburger menu is visible */
-        }
-    }
-
-    /* Portrait orientation for mobile devices */
-    @media (orientation: portrait) and (max-width: 768px) {
-        .navbar-nav {
-            flex-direction: column; /* Stack vertically on portrait mode */
-        }
-
-        .navbar-toggler {
-            display: block; /* Ensure the hamburger menu is visible */
-        }
-    }
              
          `;
 	}
@@ -278,17 +282,27 @@ class Page {
 }
 
 const pageDefaults = {
-	header: `
+    header: `
+                <!-- Bootstrap CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+                <!-- Font Awesome for icons -->
                 <script src="https://kit.fontawesome.com/2101804b79.js" crossorigin="anonymous"></script>
-                <Link href="https://a-trainstation.github.io/css/bs.add.css" rel="stylesheet">
+
+                <!-- Custom CSS -->
+                <link href="https://a-trainstation.github.io/css/bs.add.css" rel="stylesheet">
+
+                <!-- Viewport meta tag for responsive design -->
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <!-- Bootstrap JS Bundle (for responsive navbar) -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                 `,
-	banner: `
+    banner: `
                 <header class="bg-dark text-white text-center py-3">
                 <h1 id="banner-text">Life of Alexander Meiners</h1>
                 </header>`,
-	footer: `
+    footer: `
                 <footer class="footer mt-3 py-3 bg-light">
                 <div class="container text-center">
                 <h2>Let's Keep in Contact!</h2>
@@ -301,8 +315,28 @@ const pageDefaults = {
                     </div>
                 </div>
             </footer>`,
-	navbar: Page.buildNavbar(_navbardef),
+    navbar: `
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">Navbar</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                ${_navbardef.map(item => `
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="${item.href}">${item.title}</a>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                `,
 };
+
+
 Page.setDefs(pageDefaults);
 
 app.get('/', async (c) => {
