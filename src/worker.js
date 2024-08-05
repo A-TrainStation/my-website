@@ -212,6 +212,7 @@ const pageDefaults = {
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
                 <script src="https://kit.fontawesome.com/2101804b79.js" crossorigin="anonymous"></script>
                 <Link href="https://a-trainstation.github.io/css/bs.add.css" rel="stylesheet">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 `,
 	banner: `
                 <header class="bg-dark text-white text-center py-3">
