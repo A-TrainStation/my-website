@@ -150,6 +150,11 @@ class Page {
             margin-right: 30px;
             margin-left: 30px;
         }
+               @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column;
+            }
+        }
              
          `;
 	}
