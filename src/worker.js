@@ -179,6 +179,7 @@ class Page {
             }
             .navbar-toggler {
                 display: none; /* Hide the hamburger menu on tablets */
+                touch-action: manipulation;
             }
         }
         /* Large devices (desktops, 992px and up) */
