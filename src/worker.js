@@ -150,11 +150,76 @@ class Page {
             margin-right: 30px;
             margin-left: 30px;
         }
-               @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column;
-            }
+          .navbar-nav {
+        flex-direction: row; /* Default direction for larger screens */
+    }
+
+    /* Media queries for different screen sizes */
+    /* Extra small devices (phones, less than 576px) */
+    @media (max-width: 575.98px) {
+        .navbar-nav {
+            flex-direction: column; /* Stack vertically on very small screens */
         }
+
+        .navbar-toggler {
+            display: block; /* Ensure the hamburger menu is visible */
+        }
+    }
+
+    /* Small devices (phones, 576px and up) */
+    @media (min-width: 576px) and (max-width: 767.98px) {
+        .navbar-nav {
+            flex-direction: column; /* Stack vertically on small screens */
+        }
+
+        .navbar-toggler {
+            display: block; /* Ensure the hamburger menu is visible */
+        }
+    }
+
+    /* Medium devices (tablets, 768px and up) */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+        .navbar-nav {
+            flex-direction: row; /* Horizontal layout for tablets */
+        }
+
+        .navbar-toggler {
+            display: none; /* Hide the hamburger menu on tablets */
+        }
+    }
+
+    /* Large devices (desktops, 992px and up) */
+    @media (min-width: 992px) {
+        .navbar-nav {
+            flex-direction: row; /* Horizontal layout for larger screens */
+        }
+
+        .navbar-toggler {
+            display: none; /* Hide the hamburger menu on desktops */
+        }
+    }
+
+    /* Landscape orientation for mobile devices */
+    @media (orientation: landscape) and (max-width: 768px) {
+        .navbar-nav {
+            flex-direction: column; /* Stack vertically on landscape mode */
+        }
+
+        .navbar-toggler {
+            display: block; /* Ensure the hamburger menu is visible */
+        }
+    }
+
+    /* Portrait orientation for mobile devices */
+    @media (orientation: portrait) and (max-width: 768px) {
+        .navbar-nav {
+            flex-direction: column; /* Stack vertically on portrait mode */
+        }
+
+        .navbar-toggler {
+            display: block; /* Ensure the hamburger menu is visible */
+        }
+    }
              
          `;
 	}
