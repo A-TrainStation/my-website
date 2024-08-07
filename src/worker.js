@@ -1,90 +1,94 @@
 import { Hono } from 'hono';
 import { html } from 'hono/html';
 
+
+
 // Bootstrap change
 const _navbardef = [
-	{ title: 'index', href: '/', type: 'Home' },
-	{ title: 'biography', href: '/bio', type: 'about' },
-	{ title: 'Career-goals', href: '/goals', type: 'career-goals' },
-	{ title: 'Activities-organization', href: '/engagement', type: 'activities-organization' },
-	{ title: 'Images', href: '/gallary', type: 'images' },
+    { title: 'index', href: '/', type: 'Home' },
+    { title: 'biography', href: '/bio', type: 'about' },
+    { title: 'Career-goals', href: '/goals', type: 'career-goals' },
+    { title: 'Activities-organization', href: '/engagement', type: 'activities-organization' },
+    { title: 'Images', href: '/gallary', type: 'images' },
 ];
 const app = new Hono();
 
 const currentAge = (birthdate) => {
-	const current = new Date();
-	const birth = new Date(birthdate);
-	const age = (current - birth) / (1000 * 60 * 60 * 24 * 365);
-	return Math.floor(age);
+    const current = new Date();
+    const birth = new Date(birthdate);
+    const age = (current - birth) / (1000 * 60 * 60 * 24 * 365);
+    return Math.floor(age);
 };
 
 console.log(currentAge('1997-11-19'));
 
+
+
 function isObject(item) {
-	return item && typeof item === 'object' && !Array.isArray(item);
+    return item && typeof item === 'object' && !Array.isArray(item);
 }
 
 function mergeDeep(target, ...sources) {
-	if (!sources.length) return target;
-	const source = sources.shift();
+    if (!sources.length) return target;
+    const source = sources.shift();
 
-	if (isObject(target) && isObject(source)) {
-		for (const key in source) {
-			if (isObject(source[key])) {
-				if (!target[key]) Object.assign(target, { [key]: {} });
-				mergeDeep(target[key], source[key]);
-			} else {
-				Object.assign(target, { [key]: source[key] });
-			}
-		}
-	}
+    if (isObject(target) && isObject(source)) {
+        for (const key in source) {
+            if (isObject(source[key])) {
+                if (!target[key]) Object.assign(target, { [key]: {} });
+                mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(target, { [key]: source[key] });
+            }
+        }
+    }
 
-	return mergeDeep(target, ...sources);
+    return mergeDeep(target, ...sources);
 }
 
 class Page {
-	static getStyleObject(style) {
-		const styleTypes = {
-			home: {
-				header: { background_color: '000' },
-				body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
-			},
-			greenlantern: {
-				header: { background_color: 'ccffdd' },
-				body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
-			},
-			purplecrayon: {
-				header: { background_color: 'ccffdd' },
-				body: { background_color: 'f7e6ff', text_color: 'ccf5ff' },
-			},
-			blueberry: {
-				header: { background_color: 'ccffdd' },
-				body: { background_color: 'b3f0ff', text_color: 'ccf5ff' },
-			},
-			yellowflower: {
-				header: { background_color: 'ccffdd' },
-				body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
-			},
-			default: {
-				header: { background_color: '000', text_align: 'center' },
-				body: { background_color: 'e0ebeb', text_color: 'fff' },
-			},
-		};
-		return styleTypes[style] || styleTypes['default'];
-	}
+    static getStyleObject(style) {
+        const styleTypes = {
+            home: {
+                header: { background_color: '000' },
+                body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
+            },
+            greenlantern: {
+                header: { background_color: 'ccffdd' },
+                body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
+            },
+            purplecrayon: {
+                header: { background_color: 'ccffdd' },
+                body: { background_color: 'f7e6ff', text_color: 'ccf5ff' },
+            },
+            blueberry: {
+                header: { background_color: 'ccffdd' },
+                body: { background_color: 'b3f0ff', text_color: 'ccf5ff' },
+            },
+            yellowflower: {
+                header: { background_color: 'ccffdd' },
+                body: { background_color: 'e0ebeb', text_color: 'ccf5ff' },
+            },
+            default: {
+                header: { background_color: '000', text_align: 'center' },
+                body: { background_color: 'e0ebeb', text_color: 'fff' },
+            },
+        };
+        return styleTypes[style] || styleTypes['default'];
+    }
 
-	static defaults = {};
-	static defaultKeysAllowed = ['header', 'footer', 'banner', 'body', 'navbar'];
-	static setDefs = (setDefaults) => {
-		for (const [key, value] of Object.entries(setDefaults)) if (Page.defaultKeysAllowed.includes(key)) Page.defaults[key] = value;
-	};
-	static buildNavbar(navObj) {
-		let output = '';
-		for (const each of navObj) {
-			output += `<a class="nav-link" href="${each.href}">${each.title}</a>`;
-		}
+    static defaults = {};
+    static defaultKeysAllowed = ['header', 'footer', 'banner', 'body', 'navbar'];
+    static setDefs = (setDefaults) => {
+        for (const [key, value] of Object.entries(setDefaults)) if (Page.defaultKeysAllowed.includes(key)) Page.defaults[key] = value;
+    };
+    static buildNavbar(navObj) {
+        let output = '';
+        for (const each of navObj) {
+            output += `<a class="nav-link" href="${each.href}">${each.title}</a>`;
+        }
 
-		return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <div class="container-fluid">
                         <a class="navbar-brand" href="#">Navbar</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,38 +101,38 @@ class Page {
                         </div>
                     </div>
                 </nav>`;
-	}
+    }
 
-	constructor(args) {
-		this.navbar = args.navbar || [];
-		this.style = args.style || {};
-		this.title = args.title || '';
-		this.body = args.body || '';
-		this.header = args.header || '';
-		this.footer = args.footer || '';
-		this.backgroundColor = args.backgroundColor || '#Fddfed';
-		this.topButton = args.topButtonText || 'Top Button';
-	}
+    constructor(args) {
+        this.navbar = args.navbar || [];
+        this.style = args.style || {};
+        this.title = args.title || '';
+        this.body = args.body || '';
+        this.header = args.header || '';
+        this.footer = args.footer || '';
+        this.backgroundColor = args.backgroundColor || '#Fddfed';
+        this.topButton = args.topButtonText || 'Top Button';
+    }
 
-	get navbar() {
-		return this._navbar.length ? Page.buildNavbar(this._navbar) : Page.defaults.navbar || '';
-	}
+    get navbar() {
+        return this._navbar.length ? Page.buildNavbar(this._navbar) : Page.defaults.navbar || '';
+    }
 
-	set navbar(navbarArr) {
-		this._navbar = navbarArr;
-	}
+    set navbar(navbarArr) {
+        this._navbar = navbarArr;
+    }
 
-	get topButton() {
-		return `<button onclick="topFunction()" id="topButton" title="${this._topButtonText}">${this._topButtonText || 'Top Button'}</button>`;
-	}
+    get topButton() {
+        return `<button onclick="topFunction()" id="topButton" title="${this._topButtonText}">${this._topButtonText || 'Top Button'}</button>`;
+    }
 
-	set topButton(topButtonText) {
-		this._topButtonText = topButtonText;
-	}
+    set topButton(topButtonText) {
+        this._topButtonText = topButtonText;
+    }
 
-	get style() {
-		const style = this._style;
-		return `
+    get style() {
+        const style = this._style;
+        return `
         header {
             background-color: #${style.header.background_color};
             color: #${style.header.text_color};
@@ -150,7 +154,7 @@ class Page {
             margin-right: 30px;
             margin-left: 30px;
         }
-         .navbar-nav {
+        .navbar-nav {
             flex-direction: row; /* Default direction for larger screens */
         }
         /* Media queries for different screen sizes */
@@ -225,25 +229,24 @@ class Page {
         #topButton:hover {
             background-color: #0056b3;
         }
-             
-         `;
-	}
+        `;
+    }
 
-	set style(args) {
-		let styleArgs = args;
-		if (styleArgs.primaryColor) {
-			styleArgs = {
-				header: { background_color: args.primaryColor },
-				body: { background_color: args.primaryColor, text_color: args.primaryColor },
-			};
-		}
-		const styledef = Page.getStyleObject('default');
-		const merge = mergeDeep(styledef, styleArgs);
-		this._style = merge;
-	}
+    set style(args) {
+        let styleArgs = args;
+        if (styleArgs.primaryColor) {
+            styleArgs = {
+                header: { background_color: args.primaryColor },
+                body: { background_color: args.primaryColor, text_color: args.primaryColor },
+            };
+        }
+        const styledef = Page.getStyleObject('default');
+        const merge = mergeDeep(styledef, styleArgs);
+        this._style = merge;
+    }
 
-	get header() {
-		return `
+    get header() {
+        return `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -252,34 +255,34 @@ class Page {
             <title>${this.title}</title>
             ${this._header || Page.defaults.header}
         </head>`;
-	}
+    }
 
-	set header(header) {
-		this._header = header;
-	}
+    set header(header) {
+        this._header = header;
+    }
 
-	get body() {
-		const banner = Page.defaults.banner || '';
-		const body = this._body || Page.defaults.body || '';
-		const navbar = this.navbar;
-		return banner + navbar + body;
-	}
+    get body() {
+        const banner = Page.defaults.banner || '';
+        const body = this._body || Page.defaults.body || '';
+        const navbar = this.navbar;
+        return banner + navbar + body;
+    }
 
-	set body(content) {
-		this._body = content;
-	}
+    set body(content) {
+        this._body = content;
+    }
 
-	get footer() {
-		return this._footer || Page.defaults.footer || '';
-	}
+    get footer() {
+        return this._footer || Page.defaults.footer || '';
+    }
 
-	set footer(content) {
-		this._footer = content;
-	}
+    set footer(content) {
+        this._footer = content;
+    }
 
-	render() {
-		return this.header + this.body + this.footer + this.topButton;
-	}
+    render() {
+        return this.header + this.body + this.footer + this.topButton;
+    }
 }
 
 const pageDefaults = {
@@ -317,78 +320,84 @@ const pageDefaults = {
                 </div>
             </footer>`,
     navbar: `
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">Navbar</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
-                                ${_navbardef.map(item => `
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="${item.href}">${item.title}</a>
-                                    </li>
-                                `).join('')}
-                            </ul>
-                        </div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            ${_navbardef.map(item => `
+                                <li class="nav-item">
+                                    <a class="nav-link" href="${item.href}">${item.title}</a>
+                                </li>
+                            `).join('')}
+                        </ul>
                     </div>
-                </nav>
-                `,
-};
-
+                </div>
+            </nav>
+            `,
+    };
 
 Page.setDefs(pageDefaults);
 
 app.get('/', async (c) => {
 	const htmlContent = `
-                <div class="container">
-                    <div class="row">
-                        <!-- Profile Image Column -->
-                        <div class="col-md-3">
-                            <div class="Images" style="margin-bottom: 30px;">
-                                <img class="profile-img d-block m-3" alt="Profile-image" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/IMG_2449.JPG" style="max-width: 200px; height: auto; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);">
-                            </div>
-                            <div class="contact-info">
-                                <a href="mailto:alexandergregm25@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i><span class="sr-only">alexandergregm25@gmail.com</span></a>
-                                <a href="https://a-trainstation.github.io/AlexM/"><i class="fa fa-github" aria-hidden="true"></i><span class="sr-only">yourwebsite.com</span></a>
-                                <a href="https://twitter.com/ATrainMeiners"><i class="fa fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
-                                <a href="https://www.linkedin.com/in/alex-meiners-209851288"><i class="fa fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
-                                <a href="https://www.facebook.com/profile.php?id=100007566049250&mibextid=LQQJ4d"><i class="fa fa-facebook" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
-                            </div>
-                            <h2>CONTACT ME</h2>
-                            <form id="contactForm" style="display: flex; flex-direction: column; align-items: flex-start;" method="post" action="/">
-                                <label for="name"> Name</label>
-                                <input type="text" id="name" name="name" style="margin-bottom: 10px;">
-                                <label for="email">Email</label>
-                                <input type="text" id="email" name="email" style="margin-bottom: 10px;">
-                                <fieldset style="border: none; margin-bottom: 10px; padding: 10px 0;">
-                                    <legend>Would you like to read my book? </legend>
-                                    <input type="radio" id="yes" name="book" value="yes">
-                                    <label for="yes"> Yes</label>
-                                    <input type="radio" id="no" name="book" value="no">
-                                    <label for="no"> No</label>
-                                </fieldset>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>             
-                        </div>
-                        
-                        <!-- Body Content Column -->
-                        <div class="col-md-9">
-                            <div>
-                                <h1>There is a Book inside everyone's life!</h1>
-                                <p>Hi Everyone!, Welcome to my Website, My Name is Alexander Meiners,
-                                    I am former and current Student at Indian Hills Community College, and 
-                                    when I went to school here before, it was Business and Marketing. 
-                                    My Life is like a book because oddly enough I write books for a living. My future,
-                                    wasn't always what I anticipated, but from hard work, perseverance, determination,
-                                    there was hope. 
-                                </p>
-                            </div>
-                        </div>
+        <div class="container">
+            <div class="row">
+                <!-- Profile Image Column -->
+                <div class="col-md-3">
+                    <div class="Images" style="margin-bottom: 30px;">
+                        <img class="profile-img d-block m-3" alt="Profile-image" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/IMG_2449.JPG" style="max-width: 200px; height: auto; border-radius: 5px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);">
                     </div>
+                    <div class="contact-info">
+                        <a href="mailto:alexandergregm25@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i><span class="sr-only">alexandergregm25@gmail.com</span></a>
+                        <a href="https://a-trainstation.github.io/AlexM/"><i class="fa fa-github" aria-hidden="true"></i><span class="sr-only">yourwebsite.com</span></a>
+                        <a href="https://twitter.com/ATrainMeiners"><i class="fa fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                        <a href="https://www.linkedin.com/in/alex-meiners-209851288"><i class="fa fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
+                        <a href="https://www.facebook.com/profile.php?id=100007566049250&mibextid=LQQJ4d"><i class="fa fa-facebook" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
+                    </div>
+                    <h2>CONTACT ME</h2>
+                    <form id="contactForm" style="display: flex; flex-direction: column; align-items: flex-start;" method="post" action="/">
+                        <label for="name"> Name</label>
+                        <input type="text" id="name" name="name" style="margin-bottom: 10px;">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" style="margin-bottom: 10px;">
+                        <fieldset style="border: none; margin-bottom: 10px; padding: 10px 0;">
+                            <legend>Would you like to read my book? </legend>
+                            <input type="radio" id="yes" name="book" value="yes">
+                            <label for="yes"> Yes</label>
+                            <input type="radio" id="no" name="book" value="no">
+                            <label for="no"> No</label>
+                        </fieldset>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>             
                 </div>
-            `;
+                
+            <!-- Body Content Column -->
+            <div class="col-md-9">
+                <div>
+                    <h1>There is a Book inside everyone's life!</h1>
+                    <p><p>
+                        Hi Everyone! Welcome to my website. My name is Alexander Meiners, and I’m thrilled to have you here. 
+                        My journey has been quite an adventure, beginning with my time as a student at Indian Hills Community College, 
+                        where I initially focused on Business and Marketing.
+                        Life, however, has its own way of writing stories, and mine took an unexpected turn.
+                        After exploring the world of business and real estate, I discovered a new passion for computer software development. 
+                        This transition was driven by a fascination with technology and a desire to create innovative solutions. 
+                        As a professional writer and software developer, my life has become a narrative filled with diverse experiences and challenges that reflect my commitment to growth and exploration. 
+                        While my future was once uncertain and veered from my original expectations, I found my way through relentless hard work, unwavering perseverance, and a steadfast determination to achieve my dreams. 
+                        Each chapter of my journey, from business to technology, is a testament to overcoming obstacles and seizing opportunities. 
+                        I’m excited to share these experiences with you and demonstrate how embracing change can lead to fulfilling new paths. 
+                        Thank you for visiting my site, and I hope my story resonates with you and inspires you to embrace your own narrative with hope, courage, and an openness to new possibilities.
+                        </p> 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
     const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
     return c.html(page.render())
    
