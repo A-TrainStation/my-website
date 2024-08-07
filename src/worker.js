@@ -378,7 +378,7 @@ app.get('/', async (c) => {
             <!-- Body Content Column -->
             <div class="col-md-9">
                 <div>
-                    <h1>There is a Book inside everyone's life!</h1>
+                    <h1>There Is A Book Inside Everyone's Life!</h1>
                     <p><p>
                         Hi Everyone! Welcome to my website. My name is Alexander Meiners, and I’m thrilled to have you here. 
                         My journey has been quite an adventure, beginning with my time as a student at Indian Hills Community College, 
