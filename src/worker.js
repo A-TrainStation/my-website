@@ -11,7 +11,7 @@ const _navbardef = [
     { title: 'Activities-organization', href: '/engagement', type: 'activities-organization' },
     { title: 'Images', href: '/gallary', type: 'images' },
     { title: 'AI', href: '/ai', type: 'AI' },
-    { title: 'OMDB', href: '/omdb', type: 'OMDB' },
+    { title: 'POEMS', href: '/poems', type: 'POEMS' },
 ];
 const app = new Hono();
 
@@ -231,6 +231,9 @@ class Page {
         #topButton:hover {
             background-color: #0056b3;
         }
+        
+        
+        
         `;
     }
 
@@ -939,6 +942,130 @@ app.get('/ai', (c) => {
     });
     return c.html(aiPage.render());
   });
+
+
+  app.get('/poems', async (c) => {
+    const poem = `
+      DREAMING PAST THE DAYS I LOVE, playing baseball with my glove.
+      Bouncing Ideas off a wall, 2 day's later I helped the mall.
+      Have any concerns please call, I will see you Next Years Fall.
+      Moving on to something good, reading books like Red Riding Hood.
+      Looking back at who I am, thanking my town as my fans.
+      Feeling stronger like a man. Having such a great Career, couldn't done it without my fears.
+      At least everyone's gone through tears. Taking Words of advice from me, don't you worry your safe with me.
+      Come to me and 1 / 1 1 show you, see. Picking out one Memory, being with my family.
+      Hope you all decide to agree. Staying with my easy flow, one wrong turn and your down below.
+      Why is every answer No?. Please C'mon my heart is low.
+      Taking someone out tonight, love the kindness and polite. Has someone told you're bright.
+      Sending wish cards overseas, having my family come see. The entire family tree.
+      Stopping at a perfect time, really shares joy in my Rhymes, hate when people do bad Crimes.
+      Selling out my works of art, turning scratch in a new fresh start.
+      Taking these words from my heart, hopes this song never falls apart.
+      THIS IS MY MOMENT WITH YOU, ONE LAST THING LETS ALL STAY TRUE.
+    `;
+  
+    const poemsPage = new Page({
+      title: 'Dreaming Past the Days',
+      body: `
+        <head>
+          <style>
+            body {
+    //           font-family: 'Arial', sans-serif;
+    //           background-color: #f4f4f9;
+    //           margin: 0;
+    //           padding: 0;
+    //           display: flex;
+               justify-content: center;
+               align-items: center;
+              height: 100vh;
+              background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+                }
+  
+            #poem-container {
+              background: #fff;
+              border: 2px solid #ff7f50;
+              padding: 30px;
+              border-radius: 15px;
+              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+              max-width: 700px;
+              text-align: center;
+              transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+              margin: 0 auto; /* Center horizontally */
+              position: relative; /* Ensure the pseudo-element works */
+            }
+  
+            #poem-container:hover {
+              transform: scale(1.05);
+              box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+            }
+  
+            #poem-container::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 110%;
+              height: 110%;
+              background: radial-gradient(circle at top left, rgba(255,127,80,0.3), transparent 70%);
+              border-radius: 20px;
+              z-index: -1;
+            }
+  
+    //         h1 {
+    //           margin-bottom: 25px;
+    //           font-size: 2em;
+                 color: #ff7f50;
+    //           font-family: 'Georgia', serif;
+    //         }
+  
+    //         #poem {
+    //           white-space: pre-line;
+    //           line-height: 1.8;
+    //           font-size: 1.1em;
+              color: #333;
+    //         }
+  
+    //         @media (max-width: 600px) {
+    //           #poem-container {
+    //             padding: 20px;
+    //             max-width: 90%;
+    //           }
+  
+    //           h1 {
+    //             font-size: 1.5em;
+    //           }
+  
+    //           #poem {
+    //             font-size: 1em;
+    //           }
+    //         }
+    //       </style>
+        </head>
+        <body>
+          <header class="text-center my-4">
+            <h1>Dreaming Past the Days</h1>
+            <div id="poem-container">
+              <p id="poem"></p>
+            </div>
+          </header>
+          <main class="container text-center">
+            <p>This page contains the poem "Dreaming Past the Days" written by Alexander Meiners.</p>
+            <p>Date: September 21st, 2012</p>
+          </main>
+          <script>
+            document.addEventListener("DOMContentLoaded", function() {
+              document.getElementById("poem").textContent = \`${poem.trim()}\`;
+            });
+          </script>
+        </body>
+      `,
+      navbar: _navbardef,
+    });
+  
+    return c.html(poemsPage.render());
+  });
+  
 
 // // Serve static files (e.g., images, CSS) if necessary
 // app.use('/static/*', serveStatic({ root: './' }));
