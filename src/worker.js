@@ -1,8 +1,6 @@
 import { Hono } from 'hono';
 import { html } from 'hono/html';
 
-
-
 // Bootstrap change
 const _navbardef = [
     { title: 'index', href: '/', type: 'Home' },
@@ -12,6 +10,7 @@ const _navbardef = [
     { title: 'Images', href: '/gallary', type: 'images' },
     { title: 'AI', href: '/ai', type: 'AI' },
     { title: 'POEMS', href: '/poems', type: 'POEMS' },
+    { title: 'Movies', href: '/movies', type: 'MOVIES' },
 ];
 const app = new Hono();
 
@@ -925,23 +924,108 @@ app.get('/gallary', async (c) => {
 });
 
 app.get('/ai', (c) => {
-    const aiPage = new Page({
-      title: 'AI',
-      body: `
-        <header class="text-center my-4">
-          <h1>AI Section</h1>
-          <p>Explore AI content and interactions here!</p>
-        </header>
-        <main class="container">
-          <p>Welcome to the AI section. This page will contain AI-related content and features.</p>
-          <!-- AI content goes here -->
-        </main>
-      `,
-      style: { primaryColor: 'eee' },
-      navbar: _navbardef,
-    });
-    return c.html(aiPage.render());
+    const aiPage = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI Interaction</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+          }
+          #container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          #chat {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fafafa;
+            border-radius: 4px;
+          }
+          #inputForm {
+            display: flex;
+            margin-top: 10px;
+          }
+          #inputText {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+          }
+          #sendButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            margin-left: 10px;
+          }
+        </style>
+      </head>
+      <body>
+        <div id="container">
+          <header class="text-center my-4">
+            <h1>AI Interaction</h1>
+            <p>Interact with our AI chatbot below!</p>
+          </header>
+          <div id="chat"></div>
+          <form id="inputForm">
+            <input type="text" id="inputText" placeholder="Type your message here...">
+            <button type="button" id="sendButton">Send</button>
+          </form>
+        </div>
+        <script>
+          document.getElementById('sendButton').addEventListener('click', function() {
+            var inputText = document.getElementById('inputText').value;
+            var chat = document.getElementById('chat');
+            
+            // Append user message
+            chat.innerHTML += '<p><strong>You:</strong> ' + inputText + '</p>';
+            
+            // Simple AI response
+            var aiResponse;
+            switch(inputText.toLowerCase()) {
+              case 'hello':
+                aiResponse = 'Hi there!';
+                break;
+              case 'how are you?':
+                aiResponse = 'I am just a bot, but I am doing well!';
+                break;
+              default:
+                aiResponse = 'Sorry, I did not understand that.';
+            }
+            
+            // Append AI response
+            chat.innerHTML += '<p><strong>AI:</strong> ' + aiResponse + '</p>';
+            
+            // Scroll to bottom
+            chat.scrollTop = chat.scrollHeight;
+            
+            // Clear input field
+            document.getElementById('inputText').value = '';
+          });
+        </script>
+      </body>
+      </html>
+    `;
+    return c.html(aiPage);
   });
+  
 
 
   app.get('/poems', async (c) => {
@@ -1065,7 +1149,84 @@ app.get('/ai', (c) => {
   
     return c.html(poemsPage.render());
   });
-  
+
+
+  app.get('/movies', (c) => {
+    const omdbHtmlContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>OMDB Movie Search</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+            }
+            #container {
+              max-width: 600px;
+              margin: 50px auto;
+            }
+            #searchInput {
+              width: 100%;
+              padding: 10px;
+              font-size: 16px;
+              margin-bottom: 10px;
+            }
+            #searchButton {
+              padding: 10px 20px;
+              font-size: 16px;
+              cursor: pointer;
+            }
+            #movieDetails {
+              margin-top: 20px;
+            }
+            #movieDetails img {
+              max-width: 100%;
+              height: auto;
+            }
+          </style>
+        </head>
+        <body>
+          <div id="container">
+            <h1>OMDB Movie Search</h1>
+            <input type="text" id="searchInput" placeholder="Enter movie title">
+            <button id="searchButton">Search</button>
+            <div id="movieDetails"></div>
+          </div>
+        
+          <script>
+            document.getElementById('searchButton').addEventListener('click', function() {
+              var searchInput = document.getElementById('searchInput').value;
+              fetch('https://www.omdbapi.com/?apikey=86170dad&t=' + searchInput)
+                .then(response => response.json())
+                .then(data => {
+                  var movieDetails = document.getElementById('movieDetails');
+                  if (data.Response === "True") {
+                    movieDetails.innerHTML = \`
+                      <h2>\${data.Title}</h2>
+                      <img src="\${data.Poster}" alt="\${data.Title} poster">
+                      <p><strong>Year:</strong> \${data.Year}</p>
+                      <p><strong>Rated:</strong> \${data.Rated}</p>
+                      <p><strong>Genre:</strong> \${data.Genre}</p>
+                      <p><strong>Director:</strong> \${data.Director}</p>
+                      <p><strong>Actors:</strong> \${data.Actors}</p>
+                      <p><strong>Plot:</strong> \${data.Plot}</p>
+                    \`;
+                  } else {
+                    movieDetails.innerHTML = \`<p>\${data.Error}</p>\`;
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                });
+            });
+          </script>
+        </body>
+        </html>
+    `;
+    return c.html(omdbHtmlContent);
+});
 
 // // Serve static files (e.g., images, CSS) if necessary
 // app.use('/static/*', serveStatic({ root: './' }));
