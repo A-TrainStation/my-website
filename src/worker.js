@@ -10,6 +10,8 @@ const _navbardef = [
     { title: 'Career-goals', href: '/goals', type: 'career-goals' },
     { title: 'Activities-organization', href: '/engagement', type: 'activities-organization' },
     { title: 'Images', href: '/gallary', type: 'images' },
+    { title: 'AI', href: '/ai', type: 'AI' },
+    { title: 'OMDB', href: '/omdb', type: 'OMDB' },
 ];
 const app = new Hono();
 
@@ -480,10 +482,11 @@ Your App`;
 app.get('/bio', async (c) => {
 	const age = currentAge('1997-11-19');
 	const htmlContent = ` <div class="container"> <h1>COUNTRY FLAG</h1>
-                <img id="Flags" alt="India Nation Flag" src="../Images/IndiaFlag.jpeg">
-                <img id="Flags" alt="United States Of America" src="../Images/American Flag.jpg">
+                <img class="img-25 d-block m-3 img-fluid rounded " style="width: 15%;" alt="India Nation Flag" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/Flag_of_India.svg.png">
+                <img class="img-25 d-block m-3 img-fluid rounded " style="width: 15%;" alt="United States Of America" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/American%20Flag.jpg">
+                 
               
-                <h2>History</h2>
+                <h2>HISTORY</h2>
                 <P class="p1">My Name is Alexander Meiners and I am ${age} years from Mumbai, India. 
                     I was born on November 19th, 1997. I was Adopted at the age of 3 and 
                     live in Ottumwa, IA.
@@ -512,7 +515,7 @@ app.get('/bio', async (c) => {
                     I attended Eisenhower Elementary school, where I had the best of friends. My favorite part of school,
                     was outside reces, gym class and lunch. 
                 </p>
-                <h4>Sports</h4>
+                <h4>SPORTS</h4>
                 <p class="p3">
                   I am a huge sports fan, I love watching Hockey, some football, and college Sports.
                     One of my favorite sports team is the Pittsburgh Penguins.Ever since I was a kid,
@@ -527,7 +530,7 @@ app.get('/bio', async (c) => {
              
                 </div>
                     
-                  <h5>Family</h5>
+                  <h5>FAMILY</h5>
                 <div id="Family">
                   <p>In my family I have 3 sisters and 1 brother and I am the second oldest.
                     We all lived in Iowa. Everyone enjoyed spending the holidays at Grandma and Grandpas house.
@@ -574,6 +577,11 @@ app.get('/goals', async (c) => {
                         <li>▪ INTERNSHIP CLASS</li>
                         <li>▪ Python/Data Structures</li>
                         <li>▪ Business Analysis</li>
+                        <li>▪ Web Scripting</li>
+                        <li>▪ Advance .NET</li>
+                        <li>▪ Advance C#</li>
+                        <li>▪ SQLite/DBMS</li>
+                        <li>▪ Cloudflare</li>
                     </ul>
                 </div>
                 <div>
@@ -608,6 +616,7 @@ app.get('/goals', async (c) => {
                 to have as an instructor, "James Warner". I am learning so much about programming,
                 coding, HTML, and CSS and all sorts of fun projects and lab units.  
             </p>
+             <img class="img-25 d-block m-3 img-fluid rounded " style="width: 15%;" alt="Buena Vista" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/buena%20vista.png">
             <table>
                 <h6>Buena Vista University</h6>
                 <tr>
@@ -662,7 +671,7 @@ app.get('/goals', async (c) => {
         
             </table>
             
-            <img id="blog-image" alt="quotes" src="../Images/Quotes on computers.jpg"> </div>`;
+            <img class="img-25 d-block m-3 img-fluid rounded " style="width: 25%;" alt="quotes" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/Quotes%20on%20computers.jpg"> </div>`;
 	
 	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
 	return c.html(page.render())
@@ -810,25 +819,24 @@ app.get('/engagement', async (c) => {
                 }
         
                 switch(favoriteMovie.toLowerCase()) {
-                    case 'the shawshank redemption':
-                        alert("The Shawshank Redemption is a classic!");
+                    case 'transformers':
+                        alert("Transformers is an action-packed blockbuster!");
                         break;
-                    case 'the godfather':
-                        alert("The Godfather is an iconic film!");
+                    case 'charlie and the chocolate factory':
+                        alert("Charlie and the Chocolate Factory is a whimsical adventure!");
                         break;
-                    case 'the dark knight':
-                        alert("The Dark Knight is an epic superhero movie!");
+                    case 'twister':
+                        alert("Twister is a thrilling disaster film!");
                         break;
-                    case 'pulp fiction':
-                        alert("Pulp Fiction is a masterpiece of cinema!");
+                    case 'despicable me':
+                        alert("Despicable Me is a fun and heartwarming animated movie!");
                         break;
-                    case 'forrest gump':
-                        alert("Forrest Gump is a heartwarming classic!");
+                    case 'nonstop':
+                        alert("Nonstop is a suspenseful action thriller!");
                         break;
                     default:
-                        alert("I haven't seen " + favoriteMovie + ". I'll have to check it out!");
-                }
-        
+                alert("I haven't seen " + favoriteMovie + ". I'll have to check it out!");
+            }
                 // Do something fun with the user's information
                 console.log("User's favorite hobby is: " + hobby);
                 console.log("User's favorite book is: " + favoriteBook);
@@ -912,6 +920,107 @@ app.get('/gallary', async (c) => {
 	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
 	return c.html(page.render())
 });
+
+app.get('/ai', (c) => {
+    const aiPage = new Page({
+      title: 'AI',
+      body: `
+        <header class="text-center my-4">
+          <h1>AI Section</h1>
+          <p>Explore AI content and interactions here!</p>
+        </header>
+        <main class="container">
+          <p>Welcome to the AI section. This page will contain AI-related content and features.</p>
+          <!-- AI content goes here -->
+        </main>
+      `,
+      style: { primaryColor: 'eee' },
+      navbar: _navbardef,
+    });
+    return c.html(aiPage.render());
+  });
+
+// // Serve static files (e.g., images, CSS) if necessary
+// app.use('/static/*', serveStatic({ root: './' }));
+
+// app.get('/', async (c) => {
+//     const htmlContent = new Page`
+//     <!DOCTYPE html>
+//     <html lang="en">
+//     <head>
+//       <meta charset="UTF-8">
+//       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//       <title>OMDB Movie Search</title>
+//       <style>
+//         body {
+//           font-family: Arial, sans-serif;
+//         }
+//         #container {
+//           max-width: 600px;
+//           margin: 50px auto;
+//         }
+//         #searchInput {
+//           width: 100%;
+//           padding: 10px;
+//           font-size: 16px;
+//           margin-bottom: 10px;
+//         }
+//         #searchButton {
+//           padding: 10px 20px;
+//           font-size: 16px;
+//           cursor: pointer;
+//         }
+//         #movieDetails {
+//           margin-top: 20px;
+//         }
+//         #movieDetails img {
+//           max-width: 100%;
+//           height: auto;
+//         }
+//       </style>
+//     </head>
+//     <body>
+//       <div id="container">
+//         <h1>OMDB Movie Search</h1>
+//         <input type="text" id="searchInput" placeholder="Enter movie title">
+//         <button id="searchButton">Search</button>
+//         <div id="movieDetails"></div>
+//       </div>
+  
+//       <script>
+//         document.getElementById('searchButton').addEventListener('click', function() {
+//           var searchInput = document.getElementById('searchInput').value;
+  
+//           fetch('https://www.omdbapi.com/?apikey=86170dad&t=' + searchInput)
+//             .then(response => response.json())
+//             .then(data => {
+//               var movieDetails = document.getElementById('movieDetails');
+//               if (data.Response === "True") {
+//                 movieDetails.innerHTML = \`
+//                   <h2>\${data.Title}</h2>
+//                   <img src="\${data.Poster}" alt="\${data.Title} poster" class="img-fluid rounded">
+//                   <p><strong>Year:</strong> \${data.Year}</p>
+//                   <p><strong>Rated:</strong> \${data.Rated}</p>
+//                   <p><strong>Genre:</strong> \${data.Genre}</p>
+//                   <p><strong>Director:</strong> \${data.Director}</p>
+//                   <p><strong>Actors:</strong> \${data.Actors}</p>
+//                   <p><strong>Plot:</strong> \${data.Plot}</p>
+//                 \`;
+//               } else {
+//                 movieDetails.innerHTML = \`<p>\${data.Error}</p>\`;
+//               }
+//             })
+//             .catch(error => {
+//               console.error('Error:', error);
+//             });
+//         });
+//       </script>
+//     </body>
+//     </html>
+//     `;
+//     return c.html(htmlContent);
+//   });
+  
 
 app.get('/', async (c) => {
 	const htmlContent = ` `;
