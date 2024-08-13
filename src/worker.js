@@ -701,7 +701,8 @@ app.get('/engagement', async (c) => {
                         <li> 3. Alto Saxophone</li>
                         <li> 4. Playing Tennis</li>
                         <li> 5. Building Legos</li>
-                        <li> 6. video gaming</li>
+                        <li> 6. Video Gaming</li>
+                        <li> 7. Programming</li>
                     </ul>
                 </div>
             <div class="Church">
@@ -716,7 +717,7 @@ app.get('/engagement', async (c) => {
             <div class="Realtor">
                 <h5>Real Estate</h5>
                 <p>
-                    I am a Real Estate Agent with REMAX PRIDE here in Ottumwa, IA
+                    I am a former Real Estate Agent with REMAX PRIDE here in Ottumwa, IA
                     Being a Real Estate Agent has been a huge blessing to provide the best
                     services for my clients when looking at buying or selling Real Estate Property.
                     Check out one of my Property sales, underneath!!.
@@ -990,24 +991,27 @@ app.get('/ai', (c) => {
           </form>
         </div>
         <script>
-          document.getElementById('sendButton').addEventListener('click', function() {
+          document.getElementById('sendButton').addEventListener('click', async function() {
             var inputText = document.getElementById('inputText').value;
             var chat = document.getElementById('chat');
             
             // Append user message
             chat.innerHTML += '<p><strong>You:</strong> ' + inputText + '</p>';
             
-            // Simple AI response
-            var aiResponse;
-            switch(inputText.toLowerCase()) {
-              case 'hello':
-                aiResponse = 'Hi there!';
-                break;
-              case 'how are you?':
-                aiResponse = 'I am just a bot, but I am doing well!';
-                break;
-              default:
-                aiResponse = 'Sorry, I did not understand that.';
+            // Call AI API
+            try {
+              let response = await fetch('/api/ask', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question: inputText })
+              });
+              
+              let data = await response.json();
+              var aiResponse = data.answer;
+            } catch (error) {
+              var aiResponse = 'Sorry, there was an error communicating with the AI service.';
             }
             
             // Append AI response
@@ -1026,7 +1030,8 @@ app.get('/ai', (c) => {
     return c.html(aiPage);
   });
   
-
+  
+  
 
   app.get('/poems', async (c) => {
     const poem = `
@@ -1151,82 +1156,82 @@ app.get('/ai', (c) => {
   });
 
 
-  app.get('/movies', (c) => {
-    const omdbHtmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>OMDB Movie Search</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-            }
-            #container {
-              max-width: 600px;
-              margin: 50px auto;
-            }
-            #searchInput {
-              width: 100%;
-              padding: 10px;
-              font-size: 16px;
-              margin-bottom: 10px;
-            }
-            #searchButton {
-              padding: 10px 20px;
-              font-size: 16px;
-              cursor: pointer;
-            }
-            #movieDetails {
-              margin-top: 20px;
-            }
-            #movieDetails img {
-              max-width: 100%;
-              height: auto;
-            }
-          </style>
-        </head>
-        <body>
-          <div id="container">
-            <h1>OMDB Movie Search</h1>
-            <input type="text" id="searchInput" placeholder="Enter movie title">
-            <button id="searchButton">Search</button>
-            <div id="movieDetails"></div>
-          </div>
+//   app.get('/movies', (c) => {
+//     const omdbHtmlContent = `
+//         <!DOCTYPE html>
+//         <html lang="en">
+//         <head>
+//           <meta charset="UTF-8">
+//           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//           <title>OMDB Movie Search</title>
+//           <style>
+//             body {
+//               font-family: Arial, sans-serif;
+//             }
+//             #container {
+//               max-width: 600px;
+//               margin: 50px auto;
+//             }
+//             #searchInput {
+//               width: 100%;
+//               padding: 10px;
+//               font-size: 16px;
+//               margin-bottom: 10px;
+//             }
+//             #searchButton {
+//               padding: 10px 20px;
+//               font-size: 16px;
+//               cursor: pointer;
+//             }
+//             #movieDetails {
+//               margin-top: 20px;
+//             }
+//             #movieDetails img {
+//               max-width: 100%;
+//               height: auto;
+//             }
+//           </style>
+//         </head>
+//         <body>
+//           <div id="container">
+//             <h1>OMDB Movie Search</h1>
+//             <input type="text" id="searchInput" placeholder="Enter movie title">
+//             <button id="searchButton">Search</button>
+//             <div id="movieDetails"></div>
+//           </div>
         
-          <script>
-            document.getElementById('searchButton').addEventListener('click', function() {
-              var searchInput = document.getElementById('searchInput').value;
-              fetch('https://www.omdbapi.com/?apikey=86170dad&t=' + searchInput)
-                .then(response => response.json())
-                .then(data => {
-                  var movieDetails = document.getElementById('movieDetails');
-                  if (data.Response === "True") {
-                    movieDetails.innerHTML = \`
-                      <h2>\${data.Title}</h2>
-                      <img src="\${data.Poster}" alt="\${data.Title} poster">
-                      <p><strong>Year:</strong> \${data.Year}</p>
-                      <p><strong>Rated:</strong> \${data.Rated}</p>
-                      <p><strong>Genre:</strong> \${data.Genre}</p>
-                      <p><strong>Director:</strong> \${data.Director}</p>
-                      <p><strong>Actors:</strong> \${data.Actors}</p>
-                      <p><strong>Plot:</strong> \${data.Plot}</p>
-                    \`;
-                  } else {
-                    movieDetails.innerHTML = \`<p>\${data.Error}</p>\`;
-                  }
-                })
-                .catch(error => {
-                  console.error('Error:', error);
-                });
-            });
-          </script>
-        </body>
-        </html>
-    `;
-    return c.html(omdbHtmlContent);
-});
+//           <script>
+//             document.getElementById('searchButton').addEventListener('click', function() {
+//               var searchInput = document.getElementById('searchInput').value;
+//               fetch('https://www.omdbapi.com/?apikey=86170dad&t=' + searchInput)
+//                 .then(response => response.json())
+//                 .then(data => {
+//                   var movieDetails = document.getElementById('movieDetails');
+//                   if (data.Response === "True") {
+//                     movieDetails.innerHTML = \`
+//                       <h2>\${data.Title}</h2>
+//                       <img src="\${data.Poster}" alt="\${data.Title} poster">
+//                       <p><strong>Year:</strong> \${data.Year}</p>
+//                       <p><strong>Rated:</strong> \${data.Rated}</p>
+//                       <p><strong>Genre:</strong> \${data.Genre}</p>
+//                       <p><strong>Director:</strong> \${data.Director}</p>
+//                       <p><strong>Actors:</strong> \${data.Actors}</p>
+//                       <p><strong>Plot:</strong> \${data.Plot}</p>
+//                     \`;
+//                   } else {
+//                     movieDetails.innerHTML = \`<p>\${data.Error}</p>\`;
+//                   }
+//                 })
+//                 .catch(error => {
+//                   console.error('Error:', error);
+//                 });
+//             });
+//           </script>
+//         </body>
+//         </html>
+//     `;
+//     return c.html(omdbHtmlContent);
+// });
 
 // // Serve static files (e.g., images, CSS) if necessary
 // app.use('/static/*', serveStatic({ root: './' }));
