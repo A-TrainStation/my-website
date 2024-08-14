@@ -89,14 +89,14 @@ class Page {
             output += `<a class="nav-link" href="${each.href}">${each.title}</a>`;
         }
 
-        return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">Navbar</a>
+        return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+                    <div class=" col-7 container-fluid">
+                        <a class="navbar-brand" href="#">A-Train-Station!</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
+                        <div class="collapse navbar-collapse" id="navbarNav ">
+                            <ul class="navbar-nav ms-auto">
                                 ${output}
                             </ul>
                         </div>
@@ -311,7 +311,7 @@ const pageDefaults = {
                 <h1 id="banner-text">Life of Alexander Meiners</h1>
                 </header>`,
     footer: `
-                <footer class="footer mt-3 py-3 bg-light">
+                <footer class="footer mt-3 py-3 glass">
                 <div class="container text-center">
                 <h2>Let's Keep in Contact!</h2>
                     <div class="contact-info">
@@ -480,79 +480,179 @@ Your App`;
     return c.redirect('/');
 });
 
-
 app.get('/bio', async (c) => {
-	const age = currentAge('1997-11-19');
-	const htmlContent = ` <div class="container"> <h1>COUNTRY FLAG</h1>
-                <img class="img-25 d-block m-3 img-fluid rounded " style="width: 15%;" alt="India Nation Flag" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/Flag_of_India.svg.png">
-                <img class="img-25 d-block m-3 img-fluid rounded " style="width: 15%;" alt="United States Of America" src="https://raw.githubusercontent.com/A-TrainStation/Images/main/American%20Flag.jpg">
-                 
-              
-                <h2>HISTORY</h2>
-                <P class="p1">My Name is Alexander Meiners and I am ${age} years from Mumbai, India. 
-                    I was born on November 19th, 1997. I was Adopted at the age of 3 and 
-                    live in Ottumwa, IA.
-                  
-                    Hi Everyone! Welcome to my page, here I will talk about my life, careers, achievements. Let’s get started. 
-                    For those of you who are new to my LinkedIn, my name is Alexander Meiners 
-                    or Alex, I am 26 years old from Ottumwa, IA.
-                    I am a Graduate from OHS, Class of 2016. GO BULLDOGS!  
-                   
-                    I graduated with a 3.85GPA, high academic achievement, honors student, concert band soloist. 
-                    In years 2016 -2017, I completed my A.A degree at IHCC and 
-                    later went on to earn my Master’s Degree in Business Management & Marketing, M.A in 2018-2021. 
-                   
-                    Jobs that I had throughout high school and after college consisted of: 
-                    HY-VEE, Marketing, Business Administrator, Real Estate
-                    
-                    Personal Life:
-                    In my spare time I attend church on Sunday’s, I am activities coordinator for the youth in my church. 
-                    I love spending time with my Family, Friends, my amazing Girlfriend, plus my dogs. 
-                    I enjoy watching sports, going on bikes rides, rollerblading, Tennis and have a passion for writing. </P>
-            
-                <h3>CHILDHOOD</h3>
-                <p class="p2">When I was young, I was a rambunctious child and you wouldn't believe it, but
-                    I was always into the sugar bowl, haha. Sports was a huge part of my life growing up,
-                    at the age of 5 I played soccer, and rode my bikes and I loved running. When growing up
-                    I attended Eisenhower Elementary school, where I had the best of friends. My favorite part of school,
-                    was outside reces, gym class and lunch. 
-                </p>
-                <h4>SPORTS</h4>
-                <p class="p3">
-                  I am a huge sports fan, I love watching Hockey, some football, and college Sports.
-                    One of my favorite sports team is the Pittsburgh Penguins.Ever since I was a kid,
-                    my favorite animal was a Penguin and when the Penguins had a pro sports team, I followed
-                    the Pittsburgh Penguins ever since. In addition to Sports, my family and I loves watching
-                    NBA, NFL, Premire League and Formula 1 Racing. 
-                </p>
-                <div>
-                    <img id="blog-image" alt="blog-image" src="../Images/IMG_2083.JPG">
-                    <img id="blog-image" alt="profile-image" src="../Images/IMG_2449.JPG">
-                    <img id="blog-image" alt="blog-image" src="../Images/IMG_2270.JPEG">
-             
+    const age = currentAge('1997-11-19');
+    const htmlContent = `
+    <style>
+        /* Background Image */
+        body {
+            background-image: url('https://th.bing.com/th/id/OIP.X8u6NlTUirxxlGAYiiH7UwAAAA?rs=1&pid=ImgDetMain'); /* Background image URL */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Font styling */
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.7); /* White with more opacity for better visibility */
+            backdrop-filter: blur(10px); /* Blur effect */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+        }
+
+        /* Content Styling */
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .img-25 {
+            margin: 10px;
+        }
+
+        #blog-image {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .Pets img {
+            width: 100%;
+        }
+
+        /* Text Styling */
+        h1, h2, h3, h4, h5, p {
+            color: #333; /* Dark color for better contrast */
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); /* Light shadow for readability */
+        }
+
+        .glass h1, .glass h2, .glass h3, .glass h4, .glass h5 {
+            color: #000000; /* Dark color for headers */
+        }
+
+        .p1, .p2, .p3 {
+            margin-bottom: 20px;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h1>COUNTRY FLAG</h1>
+                        <div class="row">
+                            <div class="col-6 mx-auto">
+                                <img class="shadow-lg img-25 d-block m-3 img-fluid rounded" style="width: 75%;" alt="India Nation Flag" src="https://flagcdn.com/w640/in.png">
+                            </div>
+                            <div class="col-6 mx-auto">
+                                <img class="shadow-lg img-25 d-block m-3 img-fluid rounded" style="width: 75%;" alt="United States Of America" src="https://flagcdn.com/w640/us.png">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                    
-                  <h5>FAMILY</h5>
-                <div id="Family">
-                  <p>In my family I have 3 sisters and 1 brother and I am the second oldest.
-                    We all lived in Iowa. Everyone enjoyed spending the holidays at Grandma and Grandpas house.
-                    The best part is our family reunions because we don't get to see our family all the time.
-                    In my family, we play Wheel of Fortune game to see who does which chore during the week,
-                    we enjoy playing board games, Friday Movie Nights, and playing outside. My Father,
-                    brother and I have been working on outdoor projects and enjoy riding bikes.
-                  </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h2>HISTORY</h2>
+                        <p class="p1">My Name is Alexander Meiners and I am ${age} years from Mumbai, India. 
+                            I was born on November 19th, 1997. I was Adopted at the age of 3 and 
+                            live in Ottumwa, IA.</p>
+                    </div>
                 </div>
-                <div class="Pets">
-                  <p>I have 2 dogs, 2 cats.
-                    My dogs name are Lucky and Scooby. 
-                    My cats name are Molly and Milo.
-                  <img id="Lucky" alt="dogs" src="../Images/IMG_2579.JPG">
-                </p>
-              </div> </div>
-                `;
-	const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
-	return c.html(page.render())
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h2>Personal Growth</h2>
+                        <p>Hi Everyone! Welcome to my page, here I will talk about my life, careers, achievements. Let’s get started. 
+                            For those of you who are new to my LinkedIn, my name is Alexander Meiners 
+                            or Alex, I am 26 years old from Ottumwa, IA.I am a Graduate from OHS, Class of 2016. GO BULLDOGS!  
+                            I graduated with a 3.85 GPA, high academic achievement, honors student, concert band soloist. 
+                            In years 2016-2017, I completed my A.A degree at IHCC and 
+                            later went on to earn my Master’s Degree in Business Management & Marketing, M.A in 2018-2021.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h2>Occupations</h2>
+                        <p>Jobs that I had throughout high school and after college consisted of: 
+                            HY-VEE, Marketing, Business Administrator, Real Estate</p>
+                        <p>Personal Life:
+                            In my spare time I attend church on Sundays, I am an activities coordinator for the youth in my church. 
+                            I love spending time with my Family, Friends, my amazing Girlfriend, plus my dogs. 
+                            I enjoy watching sports, going on bike rides, rollerblading, Tennis and have a passion for writing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h3>CHILDHOOD</h3>
+                        <p class="p2">When I was young, I was a rambunctious child and you wouldn't believe it, but
+                            I was always into the sugar bowl, haha. Sports were a huge part of my life growing up,
+                            at the age of 5 I played soccer, and rode my bike and I loved running. When growing up
+                            I attended Eisenhower Elementary school, where I had the best of friends. My favorite part of school,
+                            was outside recess, gym class, and lunch.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h4>SPORTS</h4>
+                        <p class="p3">I am a huge sports fan, I love watching Hockey, some football, and college Sports.
+                            One of my favorite sports teams is the Pittsburgh Penguins. Ever since I was a kid,
+                            my favorite animal was a Penguin and when the Penguins had a pro sports team, I followed
+                            the Pittsburgh Penguins ever since. In addition to Sports, my family and I love watching
+                            NBA, NFL, Premier League and Formula 1 Racing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card glass mb-4">
+                    <div class="card-body">
+                        <h5>FAMILY</h5>
+                        <p>In my family I have 3 sisters and 1 brother and I am the second oldest.
+                            We all lived in Iowa. Everyone enjoyed spending the holidays at Grandma and Grandpa's house.
+                            The best part is our family reunions because we don't get to see our family all the time.
+                            In my family, we play Wheel of Fortune game to see who does which chore during the week,
+                            we enjoy playing board games, Friday Movie Nights, and playing outside. My Father,
+                            brother and I have been working on outdoor projects and enjoy riding bikes.</p>
+                        <p>I have 2 dogs, 2 cats.
+                            My dogs' names are Lucky and Scooby. 
+                            My cats' names are Molly and Milo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <img id="blog-image" alt="blog-image" src="../Images/IMG_2083.JPG">
+                                <img id="blog-image" alt="profile-image" src="../Images/IMG_2449.JPG">
+                                <img id="blog-image" alt="blog-image" src="../Images/IMG_2270.JPEG">
+                                <img id="Lucky" alt="dogs" src="../Images/IMG_2579.JPG">
+                            </div>
+                        </div>
+    `;
+    const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
+    return c.html(page.render());
 });
+
+
+
 
 app.get('/goals', async (c) => {
 	const htmlContent = ` <div class="container"> <h2>IHCC COMPUTER SOFTWARE DEVELOPMENT PROGRAM</h2>
