@@ -89,19 +89,22 @@ class Page {
             output += `<a class="nav-link" href="${each.href}">${each.title}</a>`;
         }
 
-        return `<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
-                    <div class=" col-7 container-fluid">
-                        <a class="navbar-brand" href="#">A-Train-Station!</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav ">
-                            <ul class="navbar-nav ms-auto">
-                                ${output}
-                            </ul>
-                        </div>
-                    </div>
-                </nav>`;
+        return `
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-center">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">A-Train-Station!</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        ${output}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        `;
+        
     }
 
     constructor(args) {
@@ -291,63 +294,68 @@ class Page {
 
 const pageDefaults = {
     header: `
-                <!-- Bootstrap CSS -->
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-                <!-- Font Awesome for icons -->
-                <script src="https://kit.fontawesome.com/2101804b79.js" crossorigin="anonymous"></script>
+        <!-- Font Awesome for icons -->
+        <script src="https://kit.fontawesome.com/2101804b79.js" crossorigin="anonymous"></script>
 
-                <!-- Custom CSS -->
-                <link href="https://a-trainstation.github.io/css/bs.add.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="https://a-trainstation.github.io/css/bs.add.css" rel="stylesheet">
 
-                <!-- Viewport meta tag for responsive design -->
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Viewport meta tag for responsive design -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                <!-- Bootstrap JS Bundle (for responsive navbar) -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                `,
+        <!-- Bootstrap JS Bundle (for responsive navbar) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    `,
     banner: `
-                <header class="bg-dark text-white text-center py-3">
-                <h1 id="banner-text">Life of Alexander Meiners</h1>
-                </header>`,
+        <header class="bg-dark text-white text-center py-3">
+            <h1 id="banner-text">Life of Alexander Meiners</h1>
+        </header>
+    `,
     footer: `
-                <footer class="footer mt-3 py-3 glass">
-                <div class="container text-center">
+        <footer class="footer mt-3 py-3 glass">
+            <div class="container text-center">
                 <h2>Let's Keep in Contact!</h2>
-                    <div class="contact-info">
-                        <a href="mailto:alexandergregm25@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i><span class="sr-only">alexandergregm25@gmail.com</span></a>
-                        <a href="https://a-trainstation.github.io/AlexM/"><i class="fa fa-github" aria-hidden="true"></i><span class="sr-only">yourwebsite.com</span></a>
-                        <a href="https://twitter.com/ATrainMeiners"><i class="fa fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
-                        <a href="https://www.linkedin.com/in/alex-meiners-209851288"><i class="fa fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
-                        <a href="https://www.facebook.com/profile.php?id=100007566049250&mibextid=LQQJ4d"><i class="fa fa-facebook" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
-                    </div>
+                <div class="contact-info">
+                    <a href="mailto:alexandergregm25@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i><span class="sr-only">alexandergregm25@gmail.com</span></a>
+                    <a href="https://a-trainstation.github.io/AlexM/"><i class="fa fa-github" aria-hidden="true"></i><span class="sr-only">yourwebsite.com</span></a>
+                    <a href="https://twitter.com/ATrainMeiners"><i class="fa fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                    <a href="https://www.linkedin.com/in/alex-meiners-209851288"><i class="fa fa-linkedin" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
+                    <a href="https://www.facebook.com/profile.php?id=100007566049250&mibextid=LQQJ4d"><i class="fa fa-facebook" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
                 </div>
-            </footer>`,
+            </div>
+        </footer>
+    `,
     navbar: `
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            ${_navbardef.map(item => `
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${item.href}">${item.title}</a>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">A-Train-Station!</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        ${_navbardef.map(item => `
+                            <li class="nav-item">
+                                <a class="nav-link" href="${item.href}">${item.title}</a>
+                            </li>
+                        `).join('')}
+                    </ul>
                 </div>
-            </nav>
-            `,
-    };
+            </div>
+        </nav>
+    `,
+};
 
+// Assuming Page.setDefs is a method to set default configurations
 Page.setDefs(pageDefaults);
 
+
+// Express route handler for root
 app.get('/', async (c) => {
-	const htmlContent = `
+    const htmlContent = `
         <div class="container">
             <div class="row">
                 <!-- Profile Image Column -->
@@ -379,33 +387,32 @@ app.get('/', async (c) => {
                     </form>             
                 </div>
                 
-            <!-- Body Content Column -->
-            <div class="col-md-9">
-                <div>
-                    <h1>There Is A Book Inside Everyone's Life!</h1>
-                    <p><p>
-                        Hi Everyone! Welcome to my website. My name is Alexander Meiners, and I’m thrilled to have you here. 
-                        My journey has been quite an adventure, beginning with my time as a student at Indian Hills Community College, 
-                        where I initially focused on Business and Marketing.
-                        Life, however, has its own way of writing stories, and mine took an unexpected turn.
-                        After exploring the world of business and real estate, I discovered a new passion for computer software development. 
-                        This transition was driven by a fascination with technology and a desire to create innovative solutions. 
-                        As a professional writer and software developer, my life has become a narrative filled with diverse experiences and challenges that reflect my commitment to growth and exploration. 
-                        While my future was once uncertain and veered from my original expectations, I found my way through relentless hard work, unwavering perseverance, and a steadfast determination to achieve my dreams. 
-                        Each chapter of my journey, from business to technology, is a testament to overcoming obstacles and seizing opportunities. 
-                        I’m excited to share these experiences with you and demonstrate how embracing change can lead to fulfilling new paths. 
-                        Thank you for visiting my site, and I hope my story resonates with you and inspires you to embrace your own narrative with hope, courage, and an openness to new possibilities.
-                        </p> 
-                    </p>
+                <!-- Body Content Column -->
+                <div class="col-md-9">
+                    <div>
+                        <h1>There Is A Book Inside Everyone's Life!</h1>
+                        <p>
+                            Hi Everyone! Welcome to my website. My name is Alexander Meiners, and I’m thrilled to have you here. 
+                            My journey has been quite an adventure, beginning with my time as a student at Indian Hills Community College, 
+                            where I initially focused on Business and Marketing.
+                            Life, however, has its own way of writing stories, and mine took an unexpected turn.
+                            After exploring the world of business and real estate, I discovered a new passion for computer software development. 
+                            This transition was driven by a fascination with technology and a desire to create innovative solutions. 
+                            As a professional writer and software developer, my life has become a narrative filled with diverse experiences and challenges that reflect my commitment to growth and exploration. 
+                            While my future was once uncertain and veered from my original expectations, I found my way through relentless hard work, unwavering perseverance, and a steadfast determination to achieve my dreams. 
+                            Each chapter of my journey, from business to technology, is a testament to overcoming obstacles and seizing opportunities. 
+                            I’m excited to share these experiences with you and demonstrate how embracing change can lead to fulfilling new paths. 
+                            Thank you for visiting my site, and I hope my story resonates with you and inspires you to embrace your own narrative with hope, courage, and an openness to new possibilities.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     `;
     const page = new Page({ navbar: _navbardef, title: 'home', body: htmlContent });
-    return c.html(page.render())
-   
+    return c.html(page.render());
 });
+
 
 app.post('/', async c => {
     const { name, email, book } = await c.req.parseBody();
